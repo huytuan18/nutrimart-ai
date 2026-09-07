@@ -5,10 +5,14 @@
     dashboard: ['Tổng quan', 'Theo dõi tình hình kinh doanh của cửa hàng.'],
     products: ['Hàng hóa', 'Quản lý danh mục, giá bán và thông tin dinh dưỡng.'],
     inventory: ['Tồn kho', 'Kiểm soát số lượng hàng hóa tại cửa hàng.'],
-    orders: ['Giao dịch', 'Theo dõi hóa đơn từ website và quầy thu ngân.'],
-    customers: ['Đối tác', 'Quản lý khách hàng và lịch sử mua hàng.'],
+    purchases: ['Mua hàng', 'Quản lý phiếu nhập, đặt hàng và công nợ nhà cung cấp.'],
+    orders: ['Đơn hàng', 'Theo dõi hóa đơn từ website và quầy thu ngân.'],
+    customers: ['Khách hàng', 'Quản lý khách hàng và lịch sử mua hàng.'],
+    staff: ['Nhân viên', 'Quản lý nhân viên, lịch làm việc và chấm công.'],
     cashbook: ['Sổ quỹ', 'Theo dõi toàn bộ phiếu thu, phiếu chi.'],
     reports: ['Báo cáo', 'Phân tích doanh thu và hàng hóa bán chạy.'],
+    online: ['Bán hàng online', 'Theo dõi website và các kênh bán trực tuyến.'],
+    accounting: ['Thuế & Kế toán', 'Tổng hợp chứng từ và số liệu thuế minh họa.'],
     settings: ['Thiết lập', 'Cấu hình cửa hàng và dữ liệu trình diễn.']
   };
 
@@ -107,6 +111,7 @@
     document.getElementById('page-title').textContent = titles[page][0];
     document.getElementById('page-subtitle').textContent = titles[page][1];
     document.getElementById('breadcrumb-current').textContent = titles[page][0];
+    document.title = 'NutriMart AI - ' + titles[page][0];
     location.hash = page;
     adminApp.classList.remove('menu-open');
     if (page === 'dashboard' || page === 'reports' || page === 'cashbook') renderAll();
@@ -115,9 +120,19 @@
   document.addEventListener('click', function (event) {
     var pageButton = event.target.closest('[data-page]');
     var goButton = event.target.closest('[data-go]');
+    var demoButton = event.target.closest('[data-demo-action]');
     if (pageButton) navigate(pageButton.dataset.page);
     if (goButton) navigate(goButton.dataset.go);
+    if (demoButton) showToast(demoButton.dataset.demoAction, 'success');
   });
+
+  var demoFooterClose = document.querySelector('.demo-footer > button');
+  if (demoFooterClose) {
+    demoFooterClose.addEventListener('click', function () {
+      document.querySelector('.demo-footer').remove();
+      document.getElementById('admin-app').style.paddingBottom = '0';
+    });
+  }
 
   window.addEventListener('hashchange', function () {
     navigate(location.hash.slice(1));

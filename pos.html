@@ -3,85 +3,126 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0876bd">
+  <meta name="theme-color" content="#096aa9">
   <meta name="description" content="Màn hình bán hàng tại quầy NutriMart AI.">
-  <title>NutriMart AI | Bán hàng</title>
+  <title>Chi nhánh trung tâm - Bán hàng | NutriMart AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/pos.css?v=4.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/pos.css?v=5.0">
 </head>
 <body>
-  <div class="pos-app">
-    <header class="pos-header">
-      <a class="pos-brand" href="admin.html"><span>N</span><strong>NutriMart</strong><small>BÁN HÀNG</small></a>
-      <div class="invoice-tabs"><button class="active" type="button">Hóa đơn 1 <b>×</b></button><button class="new-tab" type="button" title="Thêm hóa đơn">＋</button></div>
-      <div class="pos-header-actions"><span class="connection"><i></i>Đang đồng bộ</span><a href="admin.html">Quản lý</a><a href="index.html" target="_blank" rel="noopener">Website ↗</a><button type="button" aria-label="Thiết lập">⚙</button><span class="cashier">NM</span></div>
+  <div class="pos-app mode-delivery" id="pos-app">
+    <header class="pos-topbar">
+      <div class="product-search-wrap" id="product-search-wrap">
+        <span class="search-symbol">⌕</span>
+        <input id="pos-product-search" autocomplete="off" placeholder="Tìm hàng hóa (F3)" aria-label="Tìm hàng hóa">
+        <button class="barcode-button" type="button" title="Quét mã vạch">▥</button>
+        <div class="search-dropdown" id="search-dropdown">
+          <div class="search-dropdown-head"><strong>Chọn hàng hóa</strong><span>Nhấn vào sản phẩm để thêm vào hóa đơn</span></div>
+          <div class="category-strip" id="pos-category-strip"></div>
+          <div class="product-results" id="pos-product-list"></div>
+          <div class="product-empty" id="pos-product-empty" hidden>Không tìm thấy hàng hóa phù hợp.</div>
+        </div>
+      </div>
+
+      <div class="invoice-tabs">
+        <button class="invoice-tab active" type="button"><span>Hóa đơn 1</span><b id="invoice-line-count">0</b></button>
+        <button class="invoice-add" type="button" title="Thêm hóa đơn">＋</button>
+        <button class="invoice-more" type="button" title="Danh sách hóa đơn">⌄</button>
+      </div>
+
+      <div class="pos-tools">
+        <button type="button" title="Khóa màn hình">▣</button>
+        <button id="undo-action" type="button" title="Hoàn tác">↶</button>
+        <button id="clear-invoice" type="button" title="Làm mới hóa đơn">↻</button>
+        <button id="print-invoice" type="button" title="In tạm tính">▧</button>
+        <button class="cashier-button" type="button"><span>TN</span><strong>Thu ngân Demo</strong><b>⌄</b></button>
+        <a class="manager-button" href="man/#/DashBoard" target="_top" title="Về trang quản lý">☰</a>
+      </div>
     </header>
 
     <main class="pos-workspace">
-      <section class="product-pane">
-        <div class="search-row">
-          <label class="product-search">⌕<input id="pos-product-search" autocomplete="off" placeholder="Tìm hàng hóa theo tên, mã hàng (F3)"></label>
-          <button class="scan-button" type="button" title="Quét mã vạch">▤</button>
-          <select id="pos-category-filter" aria-label="Nhóm hàng"><option value="all">Tất cả nhóm hàng</option></select>
-        </div>
-        <div class="category-strip" id="pos-category-strip"></div>
-        <div class="product-list-head"><span>Hàng hóa</span><span>Giá bán</span><span>Tồn kho</span><span></span></div>
-        <div class="product-list" id="pos-product-list"></div>
-        <div class="product-empty" id="pos-product-empty" hidden>Không tìm thấy hàng hóa phù hợp.</div>
+      <section class="sale-items-pane">
+        <div class="sale-table-head"><span class="col-no">STT</span><span class="col-product">Hàng hóa</span><span class="col-qty">Số lượng</span><span class="col-price">Đơn giá</span><span class="col-total">Thành tiền</span><span class="col-remove"></span></div>
+        <div class="cart-lines" id="pos-cart-lines"></div>
+        <div class="invoice-note-line"><span>✎</span><input id="pos-order-note" placeholder="Ghi chú đơn hàng"></div>
+        <div class="sale-hint"><span>F3 <b>Tìm hàng</b></span><span>F4 <b>Tìm khách</b></span><span>F9 <b>Thanh toán</b></span></div>
       </section>
 
-      <aside class="invoice-pane">
-        <div class="invoice-head">
-          <div><h1>Hóa đơn 1</h1><p id="invoice-time"></p></div>
-          <button id="clear-invoice" type="button">Xóa hóa đơn</button>
+      <aside class="order-pane">
+        <div class="order-line"><label><span>♙</span><select aria-label="Nhân viên bán hàng"><option>Thu ngân Demo</option><option>Quản lý Demo</option></select></label><time id="invoice-time"></time></div>
+
+        <div class="customer-section">
+          <div class="customer-search-row"><span>⌕</span><input id="pos-customer-name" autocomplete="off" placeholder="Tìm khách hàng (F4)"><button type="button" id="quick-customer" title="Thêm khách hàng">＋</button></div>
+          <div class="customer-phone-row"><span>☎</span><input id="pos-customer-phone" autocomplete="off" placeholder="Số điện thoại hoặc mã liên hệ"></div>
         </div>
 
-        <div class="customer-box">
-          <span>♙</span>
-          <div><label for="pos-customer-name">Khách hàng</label><input id="pos-customer-name" autocomplete="off" placeholder="Khách lẻ"></div>
-          <input id="pos-customer-phone" autocomplete="off" placeholder="Số điện thoại">
-          <button type="button" title="Thêm khách hàng">＋</button>
+        <div class="order-options">
+          <label><span>Kênh bán</span><select><option>Bán trực tiếp</option><option>Website NutriMart AI</option></select></label>
+          <label class="delivery-only"><span>Người nhận</span><input id="receiver-name" placeholder="Tên người nhận"></label>
         </div>
 
-        <div class="cart-head"><span>Hàng hóa</span><span>SL</span><span>Thành tiền</span><span></span></div>
-        <div class="cart-lines" id="pos-cart-lines"></div>
-
-        <div class="invoice-note"><label>✎<input id="pos-order-note" placeholder="Ghi chú hóa đơn"></label></div>
-
-        <div class="invoice-summary">
-          <div><span>Tổng tiền hàng</span><strong id="pos-subtotal">0₫</strong></div>
-          <div><label for="pos-discount">Giảm giá</label><span class="money-input"><input id="pos-discount" type="number" min="0" value="0"><b>₫</b></span></div>
-          <div class="grand-total"><span>Khách cần trả</span><strong id="pos-grand-total">0₫</strong></div>
-          <div><span>Khách thanh toán</span><strong id="pos-payment-amount">0₫</strong></div>
+        <div class="bill-summary">
+          <div><span>Tổng tiền hàng <small id="summary-item-count">0 sản phẩm</small></span><strong id="pos-subtotal">0₫</strong></div>
+          <div><label for="pos-discount">Giảm giá</label><span class="discount-input"><input id="pos-discount" type="number" min="0" value="0"><b>₫</b></span></div>
+          <div class="delivery-fee-row"><span>Phí giao hàng</span><strong id="shipping-fee">30.000₫</strong></div>
+          <div class="bill-total"><span>Khách cần trả</span><strong id="pos-grand-total">0₫</strong></div>
         </div>
 
-        <div class="payment-methods">
-          <label><input name="pos-payment" type="radio" value="Tiền mặt" checked><span>💵 Tiền mặt</span></label>
-          <label><input name="pos-payment" type="radio" value="Chuyển khoản"><span>▦ Chuyển khoản</span></label>
-          <label><input name="pos-payment" type="radio" value="Thẻ"><span>▤ Thẻ</span></label>
+        <div class="payment-block">
+          <div class="payment-title"><span>Khách thanh toán</span><strong id="pos-payment-amount">0₫</strong></div>
+          <div class="payment-methods">
+            <label><input name="pos-payment" type="radio" value="Tiền mặt" checked><span>₫</span><b>Tiền mặt</b></label>
+            <label><input name="pos-payment" type="radio" value="Chuyển khoản"><span>▦</span><b>Chuyển khoản</b></label>
+            <label><input name="pos-payment" type="radio" value="Thẻ"><span>▤</span><b>Thẻ</b></label>
+          </div>
         </div>
 
-        <div class="invoice-actions">
-          <button class="secondary-action" id="hold-invoice" type="button">⌛ Lưu tạm</button>
-          <button class="secondary-action" id="print-invoice" type="button">▧ In tạm tính</button>
-          <button class="pay-action" id="complete-sale" type="button" disabled>THANH TOÁN <small>F9</small></button>
+        <div class="order-bottom-actions">
+          <button id="hold-invoice" type="button"><span>⌛</span>Lưu tạm</button>
+          <button class="pay-button pane-pay" data-pay-trigger type="button" disabled>THANH TOÁN <small>F9</small></button>
         </div>
       </aside>
+
+      <aside class="delivery-pane">
+        <div class="shipping-tabs"><button class="active" type="button" data-shipping-tab="gateway">Cổng NutriMart</button><button type="button" data-shipping-tab="self">Tự giao hàng</button></div>
+        <div class="shipping-content active" data-shipping-content="gateway">
+          <div class="delivery-fields">
+            <label><span>Số điện thoại người nhận</span><input id="receiver-phone" placeholder="Nhập mã liên hệ"></label>
+            <label class="wide"><span>Địa chỉ chi tiết</span><input id="receiver-address" placeholder="Số nhà, tên đường"></label>
+            <label><span>Khu vực giao hàng</span><select id="receiver-area"><option>Khu vực minh họa</option><option>Nội thành</option><option>Ngoại thành</option></select></label>
+            <label><span>Phường / xã</span><select id="receiver-ward"><option>Phường / xã minh họa</option></select></label>
+          </div>
+          <div class="package-title"><strong>Thông tin gói hàng</strong><button type="button">⚙</button></div>
+          <div class="package-fields"><label><span>Khối lượng (g)</span><input type="number" value="500" min="0"></label><label><span>Dài × rộng × cao (cm)</span><div><input type="number" value="20" min="0"><i>×</i><input type="number" value="15" min="0"><i>×</i><input type="number" value="10" min="0"></div></label></div>
+          <label class="delivery-note"><span>Ghi chú cho đơn vị vận chuyển</span><textarea id="delivery-note" placeholder="Ghi chú giao hàng"></textarea></label>
+          <div class="cod-row"><span>Thu hộ tiền (COD)</span><label class="toggle"><input id="cod-toggle" type="checkbox" checked><i></i></label></div>
+          <div class="carrier-box"><span>▰</span><div><strong>Giao hàng tiêu chuẩn</strong><small>Phí dự kiến 30.000₫ · Dữ liệu mô phỏng</small></div><b>30.000₫</b></div>
+        </div>
+        <div class="shipping-content" data-shipping-content="self">
+          <div class="self-delivery-empty"><span>▰</span><h3>Tự giao hàng</h3><p>Cửa hàng tự sắp xếp nhân viên giao đơn này.</p><label><span>Nhân viên giao</span><select><option>Giao hàng Demo</option></select></label><label><span>Thời gian dự kiến</span><input type="datetime-local"></label></div>
+        </div>
+        <button class="pay-button delivery-pay" data-pay-trigger type="button" disabled>THANH TOÁN <small>F9</small></button>
+      </aside>
     </main>
+
+    <footer class="sale-mode-bar">
+      <div class="mode-spacer"><span class="sync-dot"></span>Dữ liệu lưu trên trình duyệt</div>
+      <nav aria-label="Chế độ bán hàng">
+        <button type="button" data-sale-mode="fast"><span>⚡</span><b>Bán nhanh</b></button>
+        <button type="button" data-sale-mode="normal"><span>▤</span><b>Bán thường</b></button>
+        <button class="active" type="button" data-sale-mode="delivery"><span>▰</span><b>Bán giao hàng</b></button>
+      </nav>
+      <div class="footer-tools"><a href="index.html" target="_blank" rel="noopener">Website ↗</a><button type="button">?</button></div>
+    </footer>
   </div>
 
   <dialog class="receipt-modal" id="receipt-modal">
-    <div class="receipt-success">✓</div>
-    <h2>Thanh toán thành công</h2>
-    <p id="receipt-code"></p>
-    <strong id="receipt-total"></strong>
-    <div><button id="new-invoice" type="button">Tạo hóa đơn mới</button><a href="admin.html#orders">Xem danh sách hóa đơn</a></div>
+    <div class="receipt-success">✓</div><h2 id="receipt-title">Thanh toán thành công</h2><p id="receipt-code"></p><strong id="receipt-total"></strong><div><button id="new-invoice" type="button">Tạo hóa đơn mới</button><a href="man/#orders" target="_top">Xem danh sách hóa đơn</a></div>
   </dialog>
-
   <div class="pos-toast" id="pos-toast" role="status"></div>
-  <script src="assets/js/data.js?v=4.0"></script>
-  <script src="assets/js/pos.js?v=4.0"></script>
+  <script src="assets/js/data.js?v=5.0"></script>
+  <script src="assets/js/pos.js?v=5.0"></script>
 </body>
 </html>

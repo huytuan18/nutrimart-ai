@@ -7,10 +7,10 @@ Website bán thực phẩm dinh dưỡng viết hoàn toàn bằng HTML, CSS và
 | Khu vực | File | Chức năng |
 |---|---|---|
 | Khách hàng | `index.html` | Trang chủ, 100 sản phẩm, tìm kiếm, lọc, giỏ hàng, đặt hàng, BMI/BMR/TDEE |
-| Quản lý | `admin.html` | Giao diện kiểu phần mềm bán lẻ: tổng quan, hàng hóa, giao dịch, đối tác, kho, sổ quỹ, báo cáo |
-| Thu ngân/POS | `pos.html` | Tìm hàng, tạo hóa đơn, chọn thanh toán, lưu tạm, in tạm tính và trừ tồn kho |
+| Quản lý | `man/#/DashBoard` | Thanh tiện ích + thanh module kiểu KiotViet; tổng quan, hàng hóa, mua hàng, đơn hàng, khách hàng, nhân viên, sổ quỹ, báo cáo, online, thuế |
+| Thu ngân/POS | `sale/#/` | POS ba chế độ: Bán nhanh, Bán thường, Bán giao hàng; tìm hàng F3, khách F4, thanh toán F9 |
 
-Trang quản trị là bản trình diễn công khai và mở trực tiếp từ `admin.html`.
+Trang quản trị là bản trình diễn công khai và mở trực tiếp từ `man/#/DashBoard` (`admin.html` là trang nội dung gốc).
 
 > GitHub Pages là hosting tĩnh nên dự án không nhúng mật khẩu quản trị vào mã nguồn. Dữ liệu dùng `localStorage`, chỉ tồn tại trên từng trình duyệt và không ảnh hưởng dữ liệu của người xem khác.
 
@@ -50,12 +50,14 @@ Link quản trị:
 
 ```text
 https://TEN-TAI-KHOAN.github.io/nutrimart-ai/admin.html
+https://TEN-TAI-KHOAN.github.io/nutrimart-ai/man/#/DashBoard
 ```
 
 Link bán hàng tại quầy:
 
 ```text
 https://TEN-TAI-KHOAN.github.io/nutrimart-ai/pos.html
+https://TEN-TAI-KHOAN.github.io/nutrimart-ai/sale/#/
 ```
 
 ## Cấu trúc mã nguồn
@@ -65,6 +67,8 @@ NutriMart-AI-GitHub/
 ├── index.html
 ├── admin.html
 ├── pos.html
+├── man/index.html
+├── sale/index.html
 ├── assets/
 │   ├── css/
 │   │   ├── style.css
@@ -96,7 +100,7 @@ NutriMart-AI-GitHub/
 
 ## Khôi phục dữ liệu mẫu
 
-Vào `admin.html → Thiết lập → Khôi phục toàn bộ dữ liệu mẫu`.
+Vào `man/#/DashBoard → Thiết lập → Khôi phục dữ liệu mẫu`.
 
 ## Khi cần sử dụng thật
 

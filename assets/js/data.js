@@ -99,7 +99,7 @@
     ]);
     if (force || !localStorage.getItem('nm_cashbook')) save('nm_cashbook',buildCashbook());
     if (force || !localStorage.getItem('nm_cart')) save('nm_cart',[]);
-    localStorage.setItem('nm_data_version','4.0.0');
+    localStorage.setItem('nm_data_version','5.0.0');
   }
 
   initialize(false);
