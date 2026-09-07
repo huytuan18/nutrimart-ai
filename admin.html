@@ -3,80 +3,146 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#16253c">
-  <title>NutriMart Manager | Quản lý cửa hàng</title>
+  <meta name="theme-color" content="#0876bd">
+  <meta name="description" content="NutriMart AI Manager - quản lý bán hàng, hàng hóa, kho, khách hàng và doanh thu.">
+  <title>NutriMart AI | Quản lý cửa hàng</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
-  <section class="login-screen" id="login-screen">
-    <div class="login-art"><div class="login-brand"><span>N</span><strong>NutriMart Manager</strong></div><div class="art-content"><span>QUẢN LÝ THÔNG MINH</span><h1>Một nơi để vận hành toàn bộ cửa hàng.</h1><p>Theo dõi doanh thu, xử lý đơn hàng, kiểm soát tồn kho và bán hàng tại quầy.</p><div class="art-cards"><article><b>100+</b><small>Sản phẩm</small></article><article><b>24/7</b><small>Truy cập</small></article><article><b>AI</b><small>Dinh dưỡng</small></article></div></div><div class="art-shape shape-a"></div><div class="art-shape shape-b"></div></div>
-    <div class="login-form-wrap"><form class="login-form" id="login-form"><div class="mobile-logo"><span>N</span><strong>NutriMart</strong></div><span class="login-label">KHU VỰC QUẢN TRỊ</span><h2>Bản quản lý trình diễn</h2><p>Khám phá dashboard, bán hàng POS, đơn hàng, kho và báo cáo của NutriMart AI.</p><div class="public-demo-note"><b>🔒 An toàn trên GitHub Pages</b><span>Không sử dụng mật khẩu nhúng trong mã nguồn. Mọi thay đổi chỉ lưu trên trình duyệt của bạn và không ảnh hưởng người khác.</span></div><button class="login-button" type="submit">Mở trang quản lý demo →</button><a class="back-store" href="index.html">← Quay lại cửa hàng</a></form></div>
-  </section>
+  <div class="admin-app" id="admin-app">
+    <header class="manager-header">
+      <button class="nav-toggle" id="sidebar-toggle" type="button" aria-label="Mở menu">☰</button>
+      <a class="manager-brand" href="#dashboard" aria-label="NutriMart AI Manager">
+        <span class="brand-mark">N</span>
+        <span><strong>NutriMart</strong><small>QUẢN LÝ</small></span>
+      </a>
 
-  <div class="admin-app" id="admin-app" hidden>
-    <aside class="sidebar">
-      <a class="admin-brand" href="#dashboard"><span>N</span><div><strong>NutriMart</strong><small>MANAGER</small></div></a>
-      <nav id="admin-nav">
-        <button class="active" data-page="dashboard"><i>▦</i><span>Tổng quan</span></button>
-        <button data-page="pos"><i>🛒</i><span>Bán hàng POS</span></button>
-        <button data-page="products"><i>🥦</i><span>Sản phẩm</span></button>
-        <button data-page="orders"><i>▤</i><span>Đơn hàng</span><b id="pending-badge">0</b></button>
-        <button data-page="inventory"><i>▣</i><span>Kho hàng</span></button>
-        <button data-page="customers"><i>♙</i><span>Khách hàng</span></button>
-        <button data-page="reports"><i>▥</i><span>Báo cáo</span></button>
-        <button data-page="settings"><i>⚙</i><span>Thiết lập</span></button>
+      <nav class="manager-nav" id="admin-nav" aria-label="Điều hướng quản lý">
+        <button class="active" type="button" data-page="dashboard"><span>▦</span>Tổng quan</button>
+        <button type="button" data-page="products"><span>▣</span>Hàng hóa</button>
+        <button type="button" data-page="orders"><span>▤</span>Giao dịch <b id="pending-badge">0</b></button>
+        <button type="button" data-page="customers"><span>♙</span>Đối tác</button>
+        <button type="button" data-page="cashbook"><span>₫</span>Sổ quỹ</button>
+        <button type="button" data-page="reports"><span>▥</span>Báo cáo</button>
       </nav>
-      <div class="sidebar-foot"><a href="index.html" target="_blank">↗ <span>Xem cửa hàng</span></a><button id="logout-button">⇥ <span>Đăng xuất</span></button></div>
-    </aside>
+
+      <div class="manager-actions">
+        <a class="sale-link" href="pos.html"><span>🛒</span>Bán hàng</a>
+        <button class="round-action" type="button" aria-label="Thông báo">🔔</button>
+        <button class="round-action" type="button" data-page="settings" aria-label="Thiết lập">⚙</button>
+        <div class="manager-user"><span class="user-avatar">NM</span><span><strong>Quản trị Demo</strong><small>Chi nhánh trung tâm</small></span></div>
+      </div>
+    </header>
+
+    <div class="manager-context">
+      <div><span class="sync-dot"></span><strong>NutriMart AI</strong><span>Chi nhánh trung tâm</span></div>
+      <div><span>Dữ liệu đang lưu trên trình duyệt này</span><a href="index.html" target="_blank" rel="noopener">Xem website khách hàng ↗</a></div>
+    </div>
+
     <main class="admin-main">
-      <header class="topbar"><button class="sidebar-toggle" id="sidebar-toggle">☰</button><div><h1 id="page-title">Tổng quan</h1><p id="page-subtitle">Theo dõi tình hình cửa hàng hôm nay.</p></div><div class="top-actions"><label class="global-search">⌕<input id="global-search" placeholder="Tìm sản phẩm, đơn hàng..."></label><span class="online-dot"></span><div class="admin-user"><span><small>Chế độ công khai</small><strong>Quản trị Demo</strong></span><b>NM</b></div></div></header>
+      <header class="page-heading">
+        <div><p class="breadcrumb">NutriMart AI / <span id="breadcrumb-current">Tổng quan</span></p><h1 id="page-title">Tổng quan</h1><p id="page-subtitle">Theo dõi tình hình kinh doanh của cửa hàng.</p></div>
+        <div class="heading-actions"><label class="global-search">⌕<input id="global-search" autocomplete="off" placeholder="Tìm hàng hóa, hóa đơn..."></label><a class="button primary" href="pos.html">＋ Bán hàng</a></div>
+      </header>
+
       <div class="admin-content">
         <section class="admin-page active" data-admin-page="dashboard">
-          <div class="action-row"><div class="date-chip" id="today-label"></div><div><button class="btn light" data-go="products">＋ Thêm sản phẩm</button><button class="btn primary" data-go="pos">🛒 Tạo đơn tại quầy</button></div></div>
-          <div class="stats-grid" id="dashboard-stats"></div>
-          <div class="dashboard-grid"><article class="panel chart-panel"><div class="panel-head"><div><h2>Doanh thu 7 ngày</h2><p>Biểu đồ đơn hàng hoàn thành và đang xử lý</p></div><span class="pill">7 ngày gần nhất</span></div><div class="bar-chart" id="revenue-chart"></div></article><article class="panel"><div class="panel-head"><div><h2>Sắp hết hàng</h2><p>Sản phẩm còn tối đa 20 đơn vị</p></div><button class="link-button" data-go="inventory">Xem kho →</button></div><div class="mini-list" id="low-stock-list"></div></article></div>
-          <article class="panel"><div class="panel-head"><div><h2>Đơn hàng gần đây</h2><p>Cập nhật từ website và POS</p></div><button class="link-button" data-go="orders">Tất cả đơn →</button></div><div class="table-wrap"><table><thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>Thời gian</th><th>Nguồn</th><th>Tổng tiền</th><th>Trạng thái</th></tr></thead><tbody id="recent-orders"></tbody></table></div></article>
-        </section>
+          <div class="filter-bar">
+            <div class="period-tabs"><button class="active" type="button">Hôm nay</button><button type="button">Hôm qua</button><button type="button">7 ngày qua</button></div>
+            <div class="filter-actions"><span id="today-label"></span><button class="button ghost" type="button" data-go="reports">Xem báo cáo</button></div>
+          </div>
 
-        <section class="admin-page" data-admin-page="pos">
-          <div class="pos-layout"><div class="pos-catalog"><div class="pos-toolbar"><label>⌕<input id="pos-search" placeholder="Tìm tên hoặc mã SKU..."></label><select id="pos-category"><option value="all">Tất cả danh mục</option></select></div><div class="pos-product-grid" id="pos-products"></div><div class="no-results" id="pos-empty" hidden>Không tìm thấy sản phẩm.</div></div><aside class="pos-cart"><div class="pos-cart-head"><div><h2>Đơn tại quầy</h2><small id="pos-count">0 sản phẩm</small></div><button id="clear-pos">Xóa đơn</button></div><div class="pos-cart-items" id="pos-cart-items"></div><div class="customer-form"><label><span>Tên khách hàng</span><input id="pos-name" placeholder="Khách lẻ"></label><label><span>Số điện thoại</span><input id="pos-phone" placeholder="Không bắt buộc"></label><label class="wide"><span>Ghi chú</span><textarea id="pos-note" rows="2"></textarea></label></div><div class="payment-grid"><label><input type="radio" name="pos-payment" value="Tiền mặt" checked><span>💵 Tiền mặt</span></label><label><input type="radio" name="pos-payment" value="Chuyển khoản"><span>🏦 Chuyển khoản</span></label><label><input type="radio" name="pos-payment" value="COD"><span>🚚 COD</span></label></div><div class="pos-total"><span>Tổng thanh toán</span><strong id="pos-total">0₫</strong></div><button class="btn primary checkout-pos" id="complete-pos" disabled>✓ Hoàn tất thanh toán</button></aside></div>
+          <div class="stats-grid" id="dashboard-stats"></div>
+
+          <div class="dashboard-grid">
+            <article class="panel chart-panel">
+              <div class="panel-head"><div><h2>Doanh thu thuần</h2><p>Doanh thu theo 7 ngày gần nhất</p></div><select aria-label="Khoảng thời gian"><option>7 ngày gần nhất</option></select></div>
+              <div class="bar-chart" id="revenue-chart"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><div><h2>Cảnh báo tồn kho</h2><p>Hàng hóa cần nhập thêm</p></div><button class="text-action" type="button" data-go="inventory">Xem kho →</button></div>
+              <div class="mini-list" id="low-stock-list"></div>
+            </article>
+          </div>
+
+          <article class="panel">
+            <div class="panel-head"><div><h2>Hóa đơn gần đây</h2><p>Cập nhật từ website và quầy thu ngân</p></div><button class="text-action" type="button" data-go="orders">Xem tất cả →</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Mã hóa đơn</th><th>Khách hàng</th><th>Thời gian</th><th>Kênh bán</th><th>Tổng tiền</th><th>Trạng thái</th></tr></thead><tbody id="recent-orders"></tbody></table></div>
+          </article>
         </section>
 
         <section class="admin-page" data-admin-page="products">
-          <div class="action-row"><label class="page-search">⌕<input id="product-admin-search" placeholder="Tìm sản phẩm hoặc SKU..."></label><button class="btn primary" id="add-product-button">＋ Thêm sản phẩm</button></div><article class="panel"><div class="panel-head"><div><h2>Danh sách sản phẩm</h2><p id="product-table-count">100 sản phẩm</p></div><select id="admin-category-filter"><option value="all">Tất cả danh mục</option></select></div><div class="table-wrap"><table><thead><tr><th>Sản phẩm</th><th>SKU</th><th>Danh mục</th><th>Giá bán</th><th>Tồn kho</th><th>Trạng thái</th><th></th></tr></thead><tbody id="products-table"></tbody></table></div></article>
-        </section>
-
-        <section class="admin-page" data-admin-page="orders">
-          <div class="action-row"><label class="page-search">⌕<input id="order-search" placeholder="Tìm mã đơn, khách hàng..."></label><button class="btn primary" data-go="pos">＋ Tạo đơn POS</button></div><div class="order-tabs" id="order-tabs"><button class="active" data-status="all">Tất cả</button><button data-status="on-hold">Chờ xác nhận</button><button data-status="processing">Đang xử lý</button><button data-status="completed">Hoàn thành</button><button data-status="cancelled">Đã hủy</button></div><article class="panel"><div class="table-wrap"><table><thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>Ngày tạo</th><th>Nguồn</th><th>Thanh toán</th><th>Tổng tiền</th><th>Trạng thái</th><th></th></tr></thead><tbody id="orders-table"></tbody></table></div></article>
+          <div class="module-toolbar">
+            <div class="module-tabs"><button class="active" type="button">Danh sách hàng hóa</button><button type="button" data-go="inventory">Tồn kho</button></div>
+            <div><button class="button ghost" type="button">⇩ Xuất file</button><button class="button primary" id="add-product-button" type="button">＋ Thêm hàng hóa</button></div>
+          </div>
+          <div class="catalog-layout">
+            <aside class="filter-panel">
+              <h2>Bộ lọc</h2>
+              <label><span>Tìm kiếm</span><input id="product-admin-search" placeholder="Tên hoặc mã hàng"></label>
+              <label><span>Nhóm hàng</span><select id="admin-category-filter"><option value="all">Tất cả nhóm hàng</option></select></label>
+              <label><span>Trạng thái</span><select><option>Đang kinh doanh</option><option>Ngừng kinh doanh</option></select></label>
+              <button class="button ghost full" type="button">Đặt lại bộ lọc</button>
+            </aside>
+            <article class="panel data-panel"><div class="panel-head"><div><h2>Hàng hóa</h2><p id="product-table-count">100 hàng hóa</p></div><div class="view-buttons"><button class="active" type="button">☷</button><button type="button">▦</button></div></div><div class="table-wrap"><table><thead><tr><th>Hàng hóa</th><th>Mã hàng</th><th>Nhóm hàng</th><th>Giá bán</th><th>Tồn kho</th><th>Trạng thái</th><th></th></tr></thead><tbody id="products-table"></tbody></table></div></article>
+          </div>
         </section>
 
         <section class="admin-page" data-admin-page="inventory">
-          <div class="stats-grid small" id="inventory-stats"></div><article class="panel"><div class="panel-head"><div><h2>Tồn kho sản phẩm</h2><p>Cảnh báo tự động khi còn tối đa 20 sản phẩm</p></div><label class="page-search compact">⌕<input id="inventory-search" placeholder="Tìm trong kho..."></label></div><div class="table-wrap"><table><thead><tr><th>Sản phẩm</th><th>SKU</th><th>Danh mục</th><th>Số lượng</th><th>Mức tồn</th><th>Giá trị kho</th><th></th></tr></thead><tbody id="inventory-table"></tbody></table></div></article>
+          <div class="module-toolbar"><div class="module-tabs"><button type="button" data-go="products">Danh sách hàng hóa</button><button class="active" type="button">Tồn kho</button></div><button class="button primary" type="button" data-go="products">＋ Nhập hàng</button></div>
+          <div class="stats-grid compact" id="inventory-stats"></div>
+          <article class="panel"><div class="panel-head"><div><h2>Kiểm kho</h2><p>Số lượng hàng hóa thực tế tại cửa hàng</p></div><label class="page-search">⌕<input id="inventory-search" placeholder="Tìm mã hoặc tên hàng..."></label></div><div class="table-wrap"><table><thead><tr><th>Hàng hóa</th><th>Mã hàng</th><th>Nhóm hàng</th><th>Tồn kho</th><th>Cảnh báo</th><th>Giá trị tồn</th><th></th></tr></thead><tbody id="inventory-table"></tbody></table></div></article>
+        </section>
+
+        <section class="admin-page" data-admin-page="orders">
+          <div class="module-toolbar"><div class="order-tabs" id="order-tabs"><button class="active" type="button" data-status="all">Tất cả</button><button type="button" data-status="on-hold">Chờ xác nhận</button><button type="button" data-status="processing">Đang xử lý</button><button type="button" data-status="completed">Hoàn thành</button><button type="button" data-status="cancelled">Đã hủy</button></div><a class="button primary" href="pos.html">＋ Lập hóa đơn</a></div>
+          <article class="panel"><div class="panel-head"><div><h2>Danh sách hóa đơn</h2><p>Website và bán trực tiếp tại quầy</p></div><label class="page-search">⌕<input id="order-search" placeholder="Mã hóa đơn, tên khách..."></label></div><div class="table-wrap"><table><thead><tr><th>Mã hóa đơn</th><th>Khách hàng</th><th>Thời gian</th><th>Kênh bán</th><th>Thanh toán</th><th>Tổng tiền</th><th>Trạng thái</th><th></th></tr></thead><tbody id="orders-table"></tbody></table></div></article>
         </section>
 
         <section class="admin-page" data-admin-page="customers">
-          <div class="action-row"><label class="page-search">⌕<input id="customer-search" placeholder="Tìm tên, email, số điện thoại..."></label><button class="btn primary" id="add-customer-button">＋ Thêm khách hàng</button></div><article class="panel"><div class="table-wrap"><table><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Email</th><th>Địa chỉ</th><th>Số đơn</th><th>Đã chi tiêu</th><th></th></tr></thead><tbody id="customers-table"></tbody></table></div></article>
+          <div class="module-toolbar"><div class="module-tabs"><button class="active" type="button">Khách hàng</button><button type="button">Nhà cung cấp</button></div><button class="button primary" id="add-customer-button" type="button">＋ Thêm khách hàng</button></div>
+          <div class="partner-layout">
+            <aside class="filter-panel"><h2>Bộ lọc</h2><label><span>Tìm kiếm</span><input id="customer-search" placeholder="Tên, điện thoại, email"></label><label><span>Nhóm khách hàng</span><select><option>Tất cả nhóm</option><option>Khách lẻ</option><option>Khách thân thiết</option></select></label><label><span>Tổng bán</span><select><option>Tất cả</option><option>Trên 1.000.000₫</option></select></label></aside>
+            <article class="panel data-panel"><div class="panel-head"><div><h2>Khách hàng</h2><p>Thông tin và lịch sử mua hàng</p></div></div><div class="table-wrap"><table><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Email</th><th>Địa chỉ</th><th>Số hóa đơn</th><th>Tổng bán</th><th></th></tr></thead><tbody id="customers-table"></tbody></table></div></article>
+          </div>
+        </section>
+
+        <section class="admin-page" data-admin-page="cashbook">
+          <div class="module-toolbar"><div class="module-tabs"><button class="active" type="button">Sổ quỹ</button><button type="button">Tài khoản ngân hàng</button></div><div><button class="button income" id="add-income-button" type="button">＋ Lập phiếu thu</button><button class="button expense" id="add-expense-button" type="button">− Lập phiếu chi</button></div></div>
+          <div class="stats-grid compact" id="cashbook-stats"></div>
+          <article class="panel"><div class="panel-head"><div><h2>Phiếu thu chi</h2><p>Dòng tiền tại chi nhánh trung tâm</p></div><label class="page-search">⌕<input id="cashbook-search" placeholder="Tìm mã phiếu, nội dung..."></label></div><div class="table-wrap"><table><thead><tr><th>Mã phiếu</th><th>Thời gian</th><th>Loại phiếu</th><th>Người nộp/nhận</th><th>Nội dung</th><th>Giá trị</th><th></th></tr></thead><tbody id="cashbook-table"></tbody></table></div></article>
         </section>
 
         <section class="admin-page" data-admin-page="reports">
-          <div class="stats-grid small" id="report-stats"></div><div class="dashboard-grid"><article class="panel chart-panel"><div class="panel-head"><div><h2>Doanh thu theo ngày</h2><p>7 ngày gần nhất</p></div></div><div class="bar-chart large" id="report-chart"></div></article><article class="panel"><div class="panel-head"><div><h2>Sản phẩm bán chạy</h2><p>Theo số lượng đã bán</p></div></div><div class="mini-list ranked" id="top-products"></div></article></div><article class="panel"><div class="panel-head"><div><h2>Chi tiết theo ngày</h2><p>Không bao gồm đơn đã hủy</p></div></div><div class="table-wrap"><table><thead><tr><th>Ngày</th><th>Số đơn</th><th>Sản phẩm bán</th><th>Doanh thu</th><th>Giá trị trung bình</th></tr></thead><tbody id="report-table"></tbody></table></div></article>
+          <div class="module-toolbar"><div class="module-tabs"><button class="active" type="button">Cuối ngày</button><button type="button">Bán hàng</button><button type="button">Hàng hóa</button><button type="button">Khách hàng</button></div><button class="button ghost" type="button">⇩ Xuất báo cáo</button></div>
+          <div class="stats-grid compact" id="report-stats"></div>
+          <div class="dashboard-grid"><article class="panel chart-panel"><div class="panel-head"><div><h2>Doanh thu theo ngày</h2><p>Không bao gồm hóa đơn đã hủy</p></div><span class="status blue">7 ngày</span></div><div class="bar-chart large" id="report-chart"></div></article><article class="panel"><div class="panel-head"><div><h2>Hàng bán chạy</h2><p>Xếp hạng theo số lượng bán</p></div></div><div class="mini-list ranked" id="top-products"></div></article></div>
+          <article class="panel"><div class="panel-head"><div><h2>Chi tiết kinh doanh</h2><p>Tổng hợp từng ngày</p></div></div><div class="table-wrap"><table><thead><tr><th>Ngày</th><th>Hóa đơn</th><th>Hàng hóa bán</th><th>Doanh thu</th><th>Giá trị trung bình</th></tr></thead><tbody id="report-table"></tbody></table></div></article>
         </section>
 
         <section class="admin-page" data-admin-page="settings">
-          <div class="settings-grid"><article class="panel settings-card"><div class="panel-head"><div><h2>Thông tin cửa hàng</h2><p>Cấu hình hiển thị cơ bản</p></div></div><form id="store-settings"><label><span>Tên cửa hàng</span><input value="NutriMart AI"></label><label><span>Số điện thoại</span><input value="1900 6868"></label><label><span>Email</span><input value="hello@nutrimart.ai"></label><label><span>Địa chỉ</span><input value="Hà Nội, Việt Nam"></label><button class="btn primary" type="submit">Lưu thay đổi</button></form></article><article class="panel settings-card"><div class="panel-head"><div><h2>Dữ liệu website</h2><p>Dữ liệu demo đang lưu trên trình duyệt này</p></div><span class="status green">Đang hoạt động</span></div><div class="data-status"><div><span>Sản phẩm</span><strong id="setting-products">0</strong></div><div><span>Đơn hàng</span><strong id="setting-orders">0</strong></div><div><span>Khách hàng</span><strong id="setting-customers">0</strong></div></div><button class="btn danger" id="reset-data">↻ Khôi phục toàn bộ dữ liệu mẫu</button><p class="security-note"><b>Lưu ý về GitHub Pages</b>Dữ liệu được lưu riêng trên mỗi trình duyệt. Để có tài khoản admin bảo mật và đồng bộ nhiều máy, cần kết nối thêm cơ sở dữ liệu Supabase.</p></article></div>
+          <div class="settings-grid">
+            <article class="panel settings-card"><div class="panel-head"><div><h2>Thông tin cửa hàng</h2><p>Thông tin hiển thị trong hệ thống</p></div></div><form id="store-settings"><label><span>Tên cửa hàng</span><input value="NutriMart AI"></label><label><span>Chi nhánh</span><input value="Chi nhánh trung tâm"></label><label><span>Số điện thoại</span><input value="1900 6868"></label><label><span>Email</span><input value="hello@nutrimart.ai"></label><label><span>Địa chỉ</span><input value="Hà Nội, Việt Nam"></label><button class="button primary" type="submit">Lưu thay đổi</button></form></article>
+            <article class="panel settings-card"><div class="panel-head"><div><h2>Dữ liệu trình diễn</h2><p>Lưu riêng trong trình duyệt hiện tại</p></div><span class="status green">Đang hoạt động</span></div><div class="data-status"><div><span>Hàng hóa</span><strong id="setting-products">0</strong></div><div><span>Hóa đơn</span><strong id="setting-orders">0</strong></div><div><span>Khách hàng</span><strong id="setting-customers">0</strong></div></div><button class="button danger" id="reset-data" type="button">↻ Khôi phục dữ liệu mẫu</button><p class="security-note"><b>Chế độ GitHub Pages</b>Đây là giao diện trình diễn công khai. Mỗi người xem có dữ liệu riêng trên trình duyệt; không có mật khẩu quản trị được nhúng trong mã nguồn.</p></article>
+          </div>
         </section>
       </div>
     </main>
+
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
   </div>
 
-  <dialog class="admin-modal" id="product-modal"><button class="modal-close" data-close-modal>×</button><h2 id="product-modal-title">Thêm sản phẩm</h2><p>Thông tin sẽ được cập nhật ngay trên cửa hàng.</p><form id="product-form"><input type="hidden" name="id"><div class="form-grid"><label class="wide"><span>Tên sản phẩm</span><input name="name" required></label><label><span>Mã SKU</span><input name="sku" required></label><label><span>Danh mục</span><select name="category" id="product-category-input"></select></label><label><span>Giá bán</span><input name="price" type="number" min="0" required></label><label><span>Tồn kho</span><input name="stock" type="number" min="0" required></label><label><span>Năng lượng (kcal)</span><input name="calories" type="number" min="0" required></label><label><span>Protein (g)</span><input name="protein" type="number" min="0" step=".1" required></label><label><span>Chất xơ (g)</span><input name="fiber" type="number" min="0" step=".1" required></label><label><span>Biểu tượng</span><input name="emoji" value="🥗" required></label></div><button class="btn primary full" type="submit">Lưu sản phẩm</button></form></dialog>
-  <dialog class="admin-modal" id="customer-modal"><button class="modal-close" data-close-modal>×</button><h2>Thêm khách hàng</h2><p>Tạo hồ sơ khách hàng mới.</p><form id="customer-form"><div class="form-grid"><label class="wide"><span>Họ và tên</span><input name="name" required></label><label><span>Số điện thoại</span><input name="phone" required></label><label><span>Email</span><input name="email" type="email"></label><label class="wide"><span>Địa chỉ</span><input name="address"></label></div><button class="btn primary full" type="submit">Thêm khách hàng</button></form></dialog>
-  <dialog class="admin-modal order-modal" id="order-modal"><button class="modal-close" data-close-modal>×</button><div id="order-detail"></div></dialog>
-  <div class="admin-toast" id="admin-toast"></div>
+  <dialog class="admin-modal" id="product-modal"><button class="modal-close" data-close-modal type="button">×</button><h2 id="product-modal-title">Thêm hàng hóa</h2><p>Thông tin sẽ cập nhật trên cửa hàng của trình duyệt này.</p><form id="product-form"><input type="hidden" name="id"><div class="form-grid"><label class="wide"><span>Tên hàng hóa</span><input name="name" required></label><label><span>Mã hàng</span><input name="sku" required></label><label><span>Nhóm hàng</span><select name="category" id="product-category-input"></select></label><label><span>Giá bán</span><input name="price" type="number" min="0" required></label><label><span>Tồn kho</span><input name="stock" type="number" min="0" required></label><label><span>Năng lượng (kcal)</span><input name="calories" type="number" min="0" required></label><label><span>Protein (g)</span><input name="protein" type="number" min="0" step=".1" required></label><label><span>Chất xơ (g)</span><input name="fiber" type="number" min="0" step=".1" required></label><label><span>Biểu tượng</span><input name="emoji" value="🥗" required></label></div><button class="button primary full" type="submit">Lưu hàng hóa</button></form></dialog>
+
+  <dialog class="admin-modal" id="customer-modal"><button class="modal-close" data-close-modal type="button">×</button><h2>Thêm khách hàng</h2><p>Tạo hồ sơ khách hàng mới.</p><form id="customer-form"><div class="form-grid"><label class="wide"><span>Họ và tên</span><input name="name" required></label><label><span>Số điện thoại</span><input name="phone" required></label><label><span>Email</span><input name="email" type="email"></label><label class="wide"><span>Địa chỉ</span><input name="address"></label></div><button class="button primary full" type="submit">Thêm khách hàng</button></form></dialog>
+
+  <dialog class="admin-modal" id="cashbook-modal"><button class="modal-close" data-close-modal type="button">×</button><h2 id="cashbook-modal-title">Lập phiếu thu</h2><p>Ghi nhận giao dịch vào sổ quỹ.</p><form id="cashbook-form"><input name="type" type="hidden" value="income"><div class="form-grid"><label><span>Người nộp/nhận</span><input name="partner" required></label><label><span>Giá trị</span><input name="amount" type="number" min="1000" required></label><label class="wide"><span>Nội dung</span><input name="reason" required></label></div><button class="button primary full" type="submit">Lưu phiếu</button></form></dialog>
+
+  <dialog class="admin-modal order-modal" id="order-modal"><button class="modal-close" data-close-modal type="button">×</button><div id="order-detail"></div></dialog>
+  <div class="admin-toast" id="admin-toast" role="status"></div>
 
   <script src="assets/js/data.js"></script>
   <script src="assets/js/admin.js"></script>

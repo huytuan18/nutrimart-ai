@@ -2,14 +2,15 @@
 
 Website bán thực phẩm dinh dưỡng viết hoàn toàn bằng HTML, CSS và JavaScript. Dự án không sử dụng WordPress, PHP, MySQL, XAMPP hay hosting trả phí.
 
-## Hai giao diện riêng
+## Ba giao diện riêng
 
 | Khu vực | File | Chức năng |
 |---|---|---|
 | Khách hàng | `index.html` | Trang chủ, 100 sản phẩm, tìm kiếm, lọc, giỏ hàng, đặt hàng, BMI/BMR/TDEE |
-| Quản trị/POS | `admin.html` | Dashboard, POS, sản phẩm, đơn hàng, kho, khách hàng, báo cáo, thiết lập |
+| Quản lý | `admin.html` | Giao diện kiểu phần mềm bán lẻ: tổng quan, hàng hóa, giao dịch, đối tác, kho, sổ quỹ, báo cáo |
+| Thu ngân/POS | `pos.html` | Tìm hàng, tạo hóa đơn, chọn thanh toán, lưu tạm, in tạm tính và trừ tồn kho |
 
-Trang quản trị là bản trình diễn công khai. Mở `admin.html` và nhấn **Mở trang quản lý demo**.
+Trang quản trị là bản trình diễn công khai và mở trực tiếp từ `admin.html`.
 
 > GitHub Pages là hosting tĩnh nên dự án không nhúng mật khẩu quản trị vào mã nguồn. Dữ liệu dùng `localStorage`, chỉ tồn tại trên từng trình duyệt và không ảnh hưởng dữ liệu của người xem khác.
 
@@ -51,20 +52,29 @@ Link quản trị:
 https://TEN-TAI-KHOAN.github.io/nutrimart-ai/admin.html
 ```
 
+Link bán hàng tại quầy:
+
+```text
+https://TEN-TAI-KHOAN.github.io/nutrimart-ai/pos.html
+```
+
 ## Cấu trúc mã nguồn
 
 ```text
 NutriMart-AI-GitHub/
 ├── index.html
 ├── admin.html
+├── pos.html
 ├── assets/
 │   ├── css/
 │   │   ├── style.css
-│   │   └── admin.css
+│   │   ├── admin.css
+│   │   └── pos.css
 │   └── js/
 │       ├── data.js
 │       ├── store.js
-│       └── admin.js
+│       ├── admin.js
+│       └── pos.js
 ├── .github/workflows/deploy-pages.yml
 ├── .nojekyll
 └── start-local.bat
@@ -79,8 +89,10 @@ NutriMart-AI-GitHub/
 | Giỏ hàng, đặt hàng và tính dinh dưỡng | `assets/js/store.js` |
 | Dữ liệu 100 sản phẩm | `assets/js/data.js` |
 | Bố cục trang quản trị | `admin.html` |
-| Giao diện quản trị/POS | `assets/css/admin.css` |
-| Chức năng quản lý/POS | `assets/js/admin.js` |
+| Giao diện quản lý | `assets/css/admin.css` |
+| Chức năng quản lý | `assets/js/admin.js` |
+| Giao diện thu ngân | `assets/css/pos.css` |
+| Chức năng thu ngân | `assets/js/pos.js` |
 
 ## Khôi phục dữ liệu mẫu
 

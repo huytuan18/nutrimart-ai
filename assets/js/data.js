@@ -75,6 +75,17 @@
     });
   }
 
+  function buildCashbook() {
+    return [
+      {id:'PT000106',type:'income',createdAt:isoDaysAgo(0,9),partner:'Khách tại quầy',reason:'Thu tiền bán hàng tại quầy',amount:486000},
+      {id:'PT000105',type:'income',createdAt:isoDaysAgo(1,15),partner:'Khách mẫu 03',reason:'Thu tiền hóa đơn website',amount:327000},
+      {id:'PC000104',type:'expense',createdAt:isoDaysAgo(2,10),partner:'Nhà cung cấp mẫu',reason:'Thanh toán tiền nhập rau củ',amount:850000},
+      {id:'PT000103',type:'income',createdAt:isoDaysAgo(3,16),partner:'Khách mẫu 07',reason:'Thu tiền hóa đơn giao hàng',amount:618000},
+      {id:'PC000102',type:'expense',createdAt:isoDaysAgo(4,11),partner:'Đơn vị vận chuyển',reason:'Chi phí giao hàng',amount:180000},
+      {id:'PT000101',type:'income',createdAt:isoDaysAgo(5,14),partner:'Khách mẫu 01',reason:'Thu tiền bán hàng',amount:264000}
+    ];
+  }
+
   function save(key,value) { localStorage.setItem(key,JSON.stringify(value)); }
   function load(key,fallback) { try { var value=JSON.parse(localStorage.getItem(key)); return value == null ? fallback : value; } catch (error) { return fallback; } }
   function initialize(force) {
@@ -86,8 +97,9 @@
       {id:2,name:'Khách mẫu B',phone:'DEMO-002',email:'demo02@example.invalid',address:'Địa chỉ minh họa',createdAt:isoDaysAgo(12,9)},
       {id:3,name:'Khách mẫu C',phone:'DEMO-003',email:'demo03@example.invalid',address:'Địa chỉ minh họa',createdAt:isoDaysAgo(6,14)}
     ]);
+    if (force || !localStorage.getItem('nm_cashbook')) save('nm_cashbook',buildCashbook());
     if (force || !localStorage.getItem('nm_cart')) save('nm_cart',[]);
-    localStorage.setItem('nm_data_version','3.0.0');
+    localStorage.setItem('nm_data_version','4.0.0');
   }
 
   initialize(false);
@@ -99,6 +111,8 @@
     setOrders:function (value) { save('nm_orders',value); },
     getCustomers:function () { return load('nm_customers',[]); },
     setCustomers:function (value) { save('nm_customers',value); },
+    getCashbook:function () { return load('nm_cashbook',[]); },
+    setCashbook:function (value) { save('nm_cashbook',value); },
     getCart:function () { return load('nm_cart',[]); },
     setCart:function (value) { save('nm_cart',value); },
     reset:function () { initialize(true); },
