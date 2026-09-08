@@ -2,17 +2,26 @@
 
 Website bán thực phẩm dinh dưỡng viết hoàn toàn bằng HTML, CSS và JavaScript. Dự án không sử dụng WordPress, PHP, MySQL, XAMPP hay hosting trả phí.
 
-## Ba giao diện riêng
+## Các giao diện riêng
 
 | Khu vực | File | Chức năng |
 |---|---|---|
-| Khách hàng | `index.html` | Trang chủ, 100 sản phẩm, tìm kiếm, lọc, giỏ hàng, đặt hàng, BMI/BMR/TDEE |
+| Đăng nhập | `auth.html` | Đăng nhập, đăng ký và khôi phục mật khẩu qua Supabase Auth |
+| Khách hàng | `index.html` + `account.html` | 100 sản phẩm ảnh thật, tìm kiếm, lọc, giỏ hàng, đặt hàng, BMI/BMR/TDEE và lịch sử đơn |
 | Quản lý | `man/#/DashBoard` | Thanh tiện ích + thanh module kiểu KiotViet; tổng quan, hàng hóa, mua hàng, đơn hàng, khách hàng, nhân viên, sổ quỹ, báo cáo, online, thuế |
 | Thu ngân/POS | `sale/#/` | POS ba chế độ: Bán nhanh, Bán thường, Bán giao hàng; tìm hàng F3, khách F4, thanh toán F9 |
 
-Trang quản trị là bản trình diễn công khai và mở trực tiếp từ `man/#/DashBoard` (`admin.html` là trang nội dung gốc).
+Trang quản trị và POS yêu cầu đúng vai trò tài khoản. Đăng ký công khai chỉ tạo tài khoản khách hàng; admin cấp quyền tại **Nhân viên → Phân quyền tài khoản**.
 
-> GitHub Pages là hosting tĩnh nên dự án không nhúng mật khẩu quản trị vào mã nguồn. Dữ liệu dùng `localStorage`, chỉ tồn tại trên từng trình duyệt và không ảnh hưởng dữ liệu của người xem khác.
+## Đăng nhập và phân quyền thật
+
+Tài khoản được xác thực bởi Supabase Auth. Bảng `profiles` bật Row Level Security:
+
+- `admin`: vào trang quản lý và POS, xem/cấp quyền tài khoản.
+- `staff`: chỉ vào POS.
+- `customer`: cửa hàng và tài khoản cá nhân.
+
+Xem [SUPABASE-SETUP.md](SUPABASE-SETUP.md) để tạo bảng và admin đầu tiên. Chỉ dùng Publishable/anon key ở frontend; không dùng secret/service-role key.
 
 ## Mở trên máy bằng Visual Studio Code
 
@@ -65,6 +74,8 @@ https://TEN-TAI-KHOAN.github.io/nutrimart-ai/sale/#/
 ```text
 NutriMart-AI-GitHub/
 ├── index.html
+├── auth.html
+├── account.html
 ├── admin.html
 ├── pos.html
 ├── man/index.html
@@ -72,14 +83,24 @@ NutriMart-AI-GitHub/
 ├── assets/
 │   ├── css/
 │   │   ├── style.css
+│   │   ├── auth.css
+│   │   ├── account.css
 │   │   ├── admin.css
 │   │   └── pos.css
 │   └── js/
 │       ├── data.js
+│       ├── product-images.js
+│       ├── auth.js
+│       ├── supabase-config.js
+│       ├── auth-page.js
+│       ├── account.js
 │       ├── store.js
 │       ├── admin.js
 │       └── pos.js
 ├── .github/workflows/deploy-pages.yml
+├── supabase/schema.sql
+├── SUPABASE-SETUP.md
+├── IMAGE-CREDITS.md
 ├── .nojekyll
 └── start-local.bat
 ```
@@ -89,9 +110,12 @@ NutriMart-AI-GitHub/
 | Muốn sửa | File |
 |---|---|
 | Nội dung trang khách hàng | `index.html` |
+| Đăng nhập, đăng ký và phân quyền | `auth.html`, `assets/js/auth.js`, `assets/js/auth-page.js` |
+| Khu vực tài khoản khách hàng | `account.html`, `assets/js/account.js` |
 | Màu sắc và responsive trang khách | `assets/css/style.css` |
 | Giỏ hàng, đặt hàng và tính dinh dưỡng | `assets/js/store.js` |
 | Dữ liệu 100 sản phẩm | `assets/js/data.js` |
+| Ảnh thực tế theo từng SKU | `assets/js/product-images.js`, `IMAGE-CREDITS.md` |
 | Bố cục trang quản trị | `admin.html` |
 | Giao diện quản lý | `assets/css/admin.css` |
 | Chức năng quản lý | `assets/js/admin.js` |
@@ -102,6 +126,6 @@ NutriMart-AI-GitHub/
 
 Vào `man/#/DashBoard → Thiết lập → Khôi phục dữ liệu mẫu`.
 
-## Khi cần sử dụng thật
+## Lưu ý dữ liệu bán hàng
 
-Để dữ liệu đồng bộ giữa nhiều máy và tài khoản admin bảo mật, giữ giao diện GitHub Pages này nhưng kết nối thêm Supabase hoặc Firebase cho đăng nhập và cơ sở dữ liệu.
+Supabase đang bảo vệ tài khoản và vai trò. Dữ liệu sản phẩm/hóa đơn mẫu vẫn chạy trong trình duyệt để phục vụ đồ án; có thể chuyển tiếp các bảng này lên Supabase khi cần đồng bộ nhiều máy.

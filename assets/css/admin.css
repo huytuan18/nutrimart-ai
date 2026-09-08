@@ -276,3 +276,24 @@ td > small { display: block; margin-top: 2px; color: #8e9aa3; font-size: 10px; }
   .admin-content { padding: 0; }
   .panel { box-shadow: none; }
 }
+
+/* NutriMart AI 6.0: tài khoản, phân quyền và ảnh hàng hóa */
+.utility-user-wrap { position: relative; height: 100%; display: flex; align-items: center; }
+.utility-user-menu { position: absolute; z-index: 90; top: 46px; right: 0; visibility: hidden; width: 205px; padding: 7px; border: 1px solid var(--line); border-radius: 6px; background: #fff; box-shadow: 0 12px 30px rgba(31, 64, 85, .18); opacity: 0; transform: translateY(-5px); transition: .16s; }
+.utility-user-wrap.open .utility-user-menu { visibility: visible; opacity: 1; transform: none; }
+.utility-user-menu a, .utility-user-menu button { width: 100%; display: block; padding: 10px; border: 0; border-radius: 4px; color: #435562; background: transparent; font-size: 11px; text-align: left; text-decoration: none; cursor: pointer; }
+.utility-user-menu a:hover, .utility-user-menu button:hover { color: var(--blue); background: #eef7fc; }
+.utility-user-menu button { border-top: 1px solid #edf1f4; color: #d04b58; }
+.mini-icon, .product-cell-icon, .order-detail-thumb { position: relative; overflow: hidden; padding: 0; }
+.mini-icon img, .product-cell-icon img, .order-detail-thumb img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.mini-icon i, .product-cell-icon i, .order-detail-thumb i { position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; }
+.order-detail-product { display: flex; align-items: center; gap: 9px; }
+.order-detail-product b { font-size: 11px; font-weight: 500; }
+.order-detail-thumb { width: 34px; height: 34px; display: inline-grid; flex: 0 0 auto; place-items: center; border-radius: 4px; background: #eef5f8; }
+.accounts-panel { margin-top: 14px; }
+.row-action:disabled { color: #a5afb6; cursor: not-allowed; opacity: .55; }
+.status.violet { color: #7650a4; background: #f0e8fa; }
+.role-select { min-width: 125px; height: 30px; padding: 0 7px; border: 1px solid #d6e0e6; border-radius: 4px; color: #41535f; background: #fff; font-size: 10px; }
+.role-select:focus { border-color: var(--blue); outline: 0; }
+.role-select:disabled { color: #7f8c94; background: #f3f5f6; }
+@media (max-width: 760px) { .utility-user-wrap { margin-left: auto; } .accounts-panel .table-wrap { overflow-x: auto; } .accounts-panel table { min-width: 760px; } }

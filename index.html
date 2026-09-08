@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=7.2">
 </head>
 <body>
   <div class="announcement"><span>🚚 Miễn phí giao hàng cho đơn từ 499.000₫</span><span>Hỗ trợ: DEMO-HOTLINE</span></div>
@@ -29,6 +29,8 @@
       </nav>
       <div class="nav-actions">
         <button class="icon-button" id="search-focus" aria-label="Tìm kiếm">⌕</button>
+        <div class="guest-actions" id="guest-actions"><a href="auth.html">Đăng nhập</a><a class="register-link" href="auth.html?tab=register">Đăng ký</a></div>
+        <div class="account-menu" id="account-menu" hidden><button type="button" id="account-menu-button"><span id="header-avatar">KH</span><b id="header-user-name">Tài khoản</b><i>⌄</i></button><div><a href="account.html">Tài khoản của tôi</a><a id="header-workspace" href="man/#/DashBoard" hidden>Khu vực làm việc</a><button id="header-logout" type="button">Đăng xuất</button></div></div>
         <button class="cart-button" id="open-cart" aria-label="Mở giỏ hàng">🛒<span id="cart-badge">0</span></button>
       </div>
     </div>
@@ -51,7 +53,7 @@
           <div class="hero-orbit orbit-one">🥑</div>
           <div class="hero-orbit orbit-two">🍓</div>
           <div class="hero-orbit orbit-three">🥦</div>
-          <div class="hero-plate"><div>🥗</div><span>Bữa ăn cân bằng</span><strong>425 kcal</strong></div>
+          <div class="hero-plate"><img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&amp;fit=crop&amp;w=720&amp;h=720&amp;q=88" alt="Bát salad rau củ tươi"><span>Bữa ăn cân bằng</span><strong>425 kcal</strong></div>
           <div class="floating-card card-protein"><small>PROTEIN</small><strong>32g</strong><span>Đủ năng lượng</span></div>
           <div class="floating-card card-score"><small>HEALTH SCORE</small><strong>92</strong><span>Rất tốt</span></div>
         </div>
@@ -111,9 +113,9 @@
       <div class="container">
         <div class="section-heading"><div><span>KIẾN THỨC DINH DƯỠNG</span><h2>Ăn khỏe không hề phức tạp</h2></div><a href="#knowledge">Đọc tất cả →</a></div>
         <div class="article-grid">
-          <article><div class="article-image green-bg">🥙</div><div><span>CÂN BẰNG DINH DƯỠNG</span><h3>Xây dựng đĩa ăn cân bằng chỉ trong 5 phút</h3><p>Một nửa rau củ, một phần tư đạm và một phần tư tinh bột chất lượng.</p><a href="#nutrition-ai">Đọc bài viết →</a></div></article>
-          <article><div class="article-image orange-bg">🏷️</div><div><span>MẸO MUA SẮM</span><h3>Cách đọc nhãn dinh dưỡng khi chọn thực phẩm</h3><p>So sánh năng lượng và dưỡng chất trên cùng một lượng khẩu phần.</p><a href="#products">Đọc bài viết →</a></div></article>
-          <article><div class="article-image blue-bg">💪</div><div><span>DINH DƯỠNG THỂ THAO</span><h3>Ăn đủ protein mà không cần quá phức tạp</h3><p>Phân bổ nguồn đạm đều trong ngày và đa dạng thực phẩm.</p><a href="#products">Đọc bài viết →</a></div></article>
+          <article><div class="article-image green-bg"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&amp;fit=crop&amp;w=720&amp;h=430&amp;q=82" alt="Đĩa ăn cân bằng"></div><div><span>CÂN BẰNG DINH DƯỠNG</span><h3>Xây dựng đĩa ăn cân bằng chỉ trong 5 phút</h3><p>Một nửa rau củ, một phần tư đạm và một phần tư tinh bột chất lượng.</p><a href="#nutrition-ai">Đọc bài viết →</a></div></article>
+          <article><div class="article-image orange-bg"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&amp;fit=crop&amp;w=720&amp;h=430&amp;q=82" alt="Chọn thực phẩm tươi"></div><div><span>MẸO MUA SẮM</span><h3>Cách đọc nhãn dinh dưỡng khi chọn thực phẩm</h3><p>So sánh năng lượng và dưỡng chất trên cùng một lượng khẩu phần.</p><a href="#products">Đọc bài viết →</a></div></article>
+          <article><div class="article-image blue-bg"><img src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&amp;fit=crop&amp;w=720&amp;h=430&amp;q=82" alt="Bữa ăn giàu protein"></div><div><span>DINH DƯỠNG THỂ THAO</span><h3>Ăn đủ protein mà không cần quá phức tạp</h3><p>Phân bổ nguồn đạm đều trong ngày và đa dạng thực phẩm.</p><a href="#products">Đọc bài viết →</a></div></article>
         </div>
       </div>
     </section>
@@ -121,15 +123,18 @@
     <section class="newsletter" id="contact"><div class="container newsletter-inner"><div><span>NHẬN TIN TỪ NUTRIMART</span><h2>Mỗi tuần một mẹo sống khỏe</h2><p>Đăng ký để nhận ưu đãi và kiến thức dinh dưỡng mới.</p></div><form id="newsletter-form"><input type="email" placeholder="Email của bạn" required><button type="submit">Đăng ký →</button></form></div></section>
   </main>
 
-  <footer class="site-footer"><div class="container footer-grid"><div><a class="brand footer-brand" href="#top"><span class="brand-icon">N</span><span><strong>NutriMart</strong><small>AI NUTRITION MARKET</small></span></a><p>Siêu thị dinh dưỡng thông minh giúp mỗi lựa chọn ăn uống trở nên rõ ràng hơn.</p></div><div><h4>Mua sắm</h4><a href="#products">Tất cả sản phẩm</a><a href="#products">Thực phẩm lành mạnh</a><a href="#products">Sản phẩm mới</a></div><div><h4>Hỗ trợ</h4><a href="#contact">Liên hệ</a><a href="#knowledge">Kiến thức</a><a href="man/#/DashBoard">Khu vực quản lý</a><a href="sale/#/">Bán hàng tại quầy</a></div><div><h4>Liên hệ demo</h4><p>📍 Địa chỉ cửa hàng minh họa</p><p>☎ DEMO-HOTLINE</p><p>✉ hello@nutrimart.example.invalid</p></div></div><div class="container footer-bottom"><span>© 2026 NutriMart AI. Đồ án website bán hàng.</span><span>Ăn đúng chất · Sống đúng nhịp</span></div></footer>
+  <footer class="site-footer"><div class="container footer-grid"><div><a class="brand footer-brand" href="#top"><span class="brand-icon">N</span><span><strong>NutriMart</strong><small>AI NUTRITION MARKET</small></span></a><p>Siêu thị dinh dưỡng thông minh giúp mỗi lựa chọn ăn uống trở nên rõ ràng hơn.</p></div><div><h4>Mua sắm</h4><a href="#products">Tất cả sản phẩm</a><a href="#products">Thực phẩm lành mạnh</a><a href="#products">Sản phẩm mới</a></div><div><h4>Hỗ trợ</h4><a href="#contact">Liên hệ</a><a href="#knowledge">Kiến thức</a><a href="auth.html?redirect=man">Khu vực quản lý</a><a href="auth.html?redirect=sale">Bán hàng tại quầy</a></div><div><h4>Liên hệ demo</h4><p>📍 Địa chỉ cửa hàng minh họa</p><p>☎ DEMO-HOTLINE</p><p>✉ hello@nutrimart.example.invalid</p><small>Ảnh thực phẩm thực tế theo từng sản phẩm; <a href="IMAGE-CREDITS.md">xem nguồn ảnh</a>.</small></div></div><div class="container footer-bottom"><span>© 2026 NutriMart AI. Đồ án website bán hàng.</span><span>Ăn đúng chất · Sống đúng nhịp</span></div></footer>
 
   <aside class="cart-drawer" id="cart-drawer" aria-hidden="true"><div class="drawer-head"><div><h2>Giỏ hàng</h2><small id="drawer-count">0 sản phẩm</small></div><button id="close-cart" aria-label="Đóng">×</button></div><div class="cart-items" id="cart-items"></div><div class="drawer-foot"><div class="cart-summary"><span>Tạm tính</span><strong id="cart-total">0₫</strong></div><small>Phí vận chuyển được tính khi thanh toán</small><button class="button primary full" id="checkout-button">Tiến hành thanh toán</button></div></aside>
   <div class="overlay" id="overlay"></div>
 
-  <dialog class="checkout-modal" id="checkout-modal"><button class="dialog-close" id="close-checkout">×</button><div class="modal-heading"><span>✓</span><div><h2>Thông tin nhận hàng</h2><p>Hoàn tất đơn hàng của bạn</p></div></div><form id="checkout-form"><div class="form-grid"><label><span>Họ và tên</span><input name="name" required></label><label><span>Số điện thoại</span><input name="phone" required></label><label class="wide"><span>Địa chỉ nhận hàng</span><input name="address" required></label><label class="wide"><span>Phương thức thanh toán</span><select name="payment"><option>Thanh toán khi nhận hàng</option><option>Chuyển khoản ngân hàng</option></select></label><label class="wide"><span>Ghi chú</span><textarea name="note" rows="2"></textarea></label></div><div class="modal-total"><span>Tổng đơn hàng</span><strong id="checkout-total">0₫</strong></div><button class="button primary full" type="submit">Đặt hàng ngay</button></form></dialog>
+  <dialog class="checkout-modal" id="checkout-modal"><button class="dialog-close" id="close-checkout">×</button><div class="modal-heading"><span>✓</span><div><h2>Thông tin nhận hàng</h2><p>Đơn hàng được liên kết với tài khoản đang đăng nhập</p></div></div><form id="checkout-form"><div class="form-grid"><label><span>Họ và tên</span><input name="name" required></label><label><span>Số điện thoại</span><input name="phone" required></label><label class="wide"><span>Email tài khoản</span><input name="email" type="email" readonly></label><label class="wide"><span>Địa chỉ nhận hàng</span><input name="address" required></label><label class="wide"><span>Phương thức thanh toán</span><select name="payment"><option>Thanh toán khi nhận hàng</option><option>Chuyển khoản ngân hàng</option></select></label><label class="wide"><span>Ghi chú</span><textarea name="note" rows="2"></textarea></label></div><div class="modal-total"><span>Tổng đơn hàng</span><strong id="checkout-total">0₫</strong></div><button class="button primary full" type="submit">Đặt hàng ngay</button></form></dialog>
   <div class="toast" id="toast"></div>
 
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/store.js"></script>
+  <script src="assets/js/supabase-config.js?v=7.2"></script>
+  <script src="assets/js/auth.js?v=7.2"></script>
+  <script src="assets/js/product-images.js?v=7.2"></script>
+  <script src="assets/js/data.js?v=7.2"></script>
+  <script src="assets/js/store.js?v=7.2"></script>
 </body>
 </html>

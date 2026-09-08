@@ -1,5 +1,8 @@
-(function () {
+(async function () {
   'use strict';
+
+  var authorizedUser = await NMAuth.requireRole(['admin'],'man');
+  if (!authorizedUser) return;
 
   var titles = {
     dashboard: ['Tổng quan', 'Theo dõi tình hình kinh doanh của cửa hàng.'],
@@ -24,6 +27,21 @@
   var dashboardPeriod = 'today';
   var toastTimer;
   var adminApp = document.getElementById('admin-app');
+
+  function imageThumb(url, emoji, className, alt) {
+    return '<span class="' + className + '"><img src="' + NM.escape(url || '') + '" alt="' +
+      NM.escape(alt || '') + '" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><i hidden>' +
+      (emoji || '🥗') + '</i></span>';
+  }
+
+  function setupCurrentUser() {
+    var user = NMAuth.current();
+    if (!user) return;
+    var userInitials = initials(user.name);
+    document.getElementById('admin-user-avatar').textContent = userInitials;
+    document.getElementById('admin-user-name').textContent = user.name;
+    document.getElementById('admin-user-role').textContent = NMAuth.roleLabel(user.role) + ' · Chi nhánh trung tâm';
+  }
 
   function loadState() {
     products = NM.getProducts();
@@ -146,6 +164,18 @@
     adminApp.classList.remove('menu-open');
   });
 
+  document.getElementById('admin-user-button').addEventListener('click', function (event) {
+    event.stopPropagation();
+    document.querySelector('.utility-user-wrap').classList.toggle('open');
+  });
+  document.getElementById('admin-logout').addEventListener('click', async function () {
+    await NMAuth.logout();
+    window.top.location.replace(NMAuth.rootUrl('auth.html'));
+  });
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.utility-user-wrap')) document.querySelector('.utility-user-wrap').classList.remove('open');
+  });
+
   document.querySelectorAll('.period-tabs button').forEach(function (button, index) {
     button.addEventListener('click', function () {
       dashboardPeriod = ['today', 'yesterday', 'week'][index];
@@ -162,8 +192,8 @@
   }
 
   function productCell(product) {
-    return '<div class="product-cell"><span class="product-cell-icon" style="background:' + product.color + '">' +
-      product.emoji + '</span><div><strong>' + NM.escape(product.name) + '</strong><small>' +
+    return '<div class="product-cell">' + imageThumb(product.image, product.emoji, 'product-cell-icon', product.name) +
+      '<div><strong>' + NM.escape(product.name) + '</strong><small>' +
       NM.escape(product.sku) + '</small></div></div>';
   }
 
@@ -263,7 +293,7 @@
       return first.stock - second.stock;
     }).slice(0, 6);
     document.getElementById('low-stock-list').innerHTML = lowStock.map(function (product) {
-      return '<div class="mini-list-item"><span class="mini-icon">' + product.emoji + '</span><div><strong>' +
+      return '<div class="mini-list-item">' + imageThumb(product.image, product.emoji, 'mini-icon', product.name) + '<div><strong>' +
         NM.escape(product.name) + '</strong><small>' + NM.escape(product.sku) + ' · ' +
         NM.escape(product.categoryName) + '</small></div><b>' + product.stock + '</b></div>';
     }).join('') || '<div class="no-results">Tồn kho đang ổn định.</div>';
@@ -322,12 +352,13 @@
     form.elements.id.value = product ? product.id : '';
     document.getElementById('product-modal-title').textContent = product ? 'Cập nhật hàng hóa' : 'Thêm hàng hóa';
     if (product) {
-      ['name', 'sku', 'category', 'price', 'stock', 'calories', 'protein', 'fiber', 'emoji'].forEach(function (key) {
+      ['name', 'sku', 'category', 'price', 'stock', 'calories', 'protein', 'fiber', 'emoji', 'image'].forEach(function (key) {
         form.elements[key].value = product[key];
       });
     } else {
       form.elements.category.value = NM.categories[0].slug;
       form.elements.emoji.value = '🥗';
+      form.elements.image.value = NM.categories[0].image || '';
     }
     productModal.showModal();
   }
@@ -369,6 +400,7 @@
       categoryName: category.name,
       color: category.color,
       emoji: data.get('emoji'),
+      image: data.get('image') || category.image,
       price: Number(data.get('price')),
       stock: Number(data.get('stock')),
       calories: Number(data.get('calories')),
@@ -480,8 +512,8 @@
       NM.escape(order.customer.address || 'Mua tại quầy') + '</strong></div><div><span>Thanh toán</span><strong>' +
       NM.escape(order.payment) + '</strong></div></div>' +
       '<div class="order-detail-items">' + order.items.map(function (item) {
-        return '<div class="order-detail-line"><span>' + item.emoji + ' ' + NM.escape(item.name) +
-          ' × ' + item.quantity + '</span><strong>' + NM.formatMoney(item.price * item.quantity) + '</strong></div>';
+        return '<div class="order-detail-line"><span class="order-detail-product">' + imageThumb(item.image, item.emoji, 'order-detail-thumb', item.name) + '<b>' + NM.escape(item.name) +
+          ' × ' + item.quantity + '</b></span><strong>' + NM.formatMoney(item.price * item.quantity) + '</strong></div>';
       }).join('') + '</div><div class="order-detail-total"><span>Tổng thanh toán</span><strong>' +
       NM.formatMoney(order.total) + '</strong></div><div class="order-status-actions">' +
       '<button type="button" data-set-order="on-hold" data-id="' + NM.escape(order.id) + '">Chờ xác nhận</button>' +
@@ -565,6 +597,65 @@
         return item.id !== Number(button.dataset.deleteCustomer);
       });
       saveCustomers();
+    }
+  });
+
+  async function renderAccounts() {
+    var users;
+    try {
+      users = await NMAuth.getUsers();
+    } catch (error) {
+      document.getElementById('accounts-table').innerHTML = '<tr><td colspan="6"><div class="no-results">' + NM.escape(error.message) + '</div></td></tr>';
+      return;
+    }
+    var roleClass = {admin:'blue',staff:'green',customer:'violet'};
+    var staffUsers = users.filter(function (user) { return user.role === 'admin' || user.role === 'staff'; });
+    document.getElementById('staff-grid').innerHTML = staffUsers.map(function (user) {
+      return '<article class="staff-card"><span class="staff-avatar ' + roleClass[user.role] + '">' + initials(user.name) +
+        '</span><div><h3>' + NM.escape(user.name) + '</h3><p>' + NMAuth.roleLabel(user.role) + '</p><small>@' +
+        NM.escape(user.username) + ' · ' + NM.escape(user.email) + '</small></div><b class="status ' +
+        (user.active ? 'green' : 'gray') + '">' + (user.active ? 'Đang hoạt động' : 'Đã khóa') + '</b></article>';
+    }).join('');
+    document.getElementById('accounts-table').innerHTML = users.map(function (user) {
+      return '<tr><td><div class="customer-cell"><span class="customer-avatar">' + initials(user.name) +
+        '</span><div><strong>' + NM.escape(user.name) + '</strong><small>' + NM.escape(user.id) +
+        '</small></div></div></td><td><strong>@' + NM.escape(user.username) + '</strong></td><td>' +
+        NM.escape(user.email) + '</td><td><select class="role-select" data-account-role="' + NM.escape(user.id) + '" ' +
+        (user.id === authorizedUser.id ? 'disabled' : '') + '><option value="customer" ' + (user.role === 'customer' ? 'selected' : '') +
+        '>Khách hàng</option><option value="staff" ' + (user.role === 'staff' ? 'selected' : '') +
+        '>Nhân viên</option><option value="admin" ' + (user.role === 'admin' ? 'selected' : '') + '>Quản trị viên</option></select></td><td><span class="status ' + (user.active ? 'green' : 'gray') + '">' +
+        (user.active ? 'Hoạt động' : 'Đã khóa') + '</span></td><td><button class="row-action" type="button" data-toggle-account="' +
+        NM.escape(user.id) + '" data-active="' + String(user.active) + '" ' + (user.id === authorizedUser.id ? 'disabled' : '') + '>' +
+        (user.active ? 'Khóa' : 'Mở khóa') + '</button></td></tr>';
+    }).join('');
+  }
+
+  document.getElementById('add-account-button').addEventListener('click', function () {
+    renderAccounts();
+    showToast('Đã tải lại tài khoản từ Supabase.', 'success');
+  });
+  document.getElementById('accounts-table').addEventListener('change', async function (event) {
+    var select = event.target.closest('[data-account-role]');
+    if (!select) return;
+    select.disabled = true;
+    try {
+      await NMAuth.updateAccount(select.dataset.accountRole,{role:select.value});
+      await renderAccounts();
+      showToast('Đã cập nhật quyền tài khoản.', 'success');
+    } catch (error) {
+      showToast(error.message, 'error');
+      await renderAccounts();
+    }
+  });
+  document.getElementById('accounts-table').addEventListener('click', async function (event) {
+    var button = event.target.closest('[data-toggle-account]');
+    if (!button || button.disabled) return;
+    try {
+      await NMAuth.updateAccount(button.dataset.toggleAccount,{active:button.dataset.active !== 'true'});
+      await renderAccounts();
+      showToast('Đã cập nhật trạng thái tài khoản.', 'success');
+    } catch (error) {
+      showToast(error.message, 'error');
     }
   });
 
@@ -672,7 +763,7 @@
     validOrders().forEach(function (order) {
       order.items.forEach(function (item) {
         if (!totals[item.id]) {
-          totals[item.id] = { id: item.id, name: item.name, emoji: item.emoji, quantity: 0, total: 0 };
+          totals[item.id] = { id: item.id, name: item.name, emoji: item.emoji, image:item.image, quantity: 0, total: 0 };
         }
         totals[item.id].quantity += item.quantity;
         totals[item.id].total += item.quantity * item.price;
@@ -682,8 +773,8 @@
       .sort(function (first, second) { return second.quantity - first.quantity; })
       .slice(0, 6)
       .map(function (item) {
-        return '<div class="mini-list-item"><span class="mini-icon">' + item.emoji +
-          '</span><div><strong>' + NM.escape(item.name) + '</strong><small>' +
+        return '<div class="mini-list-item">' + imageThumb(item.image, item.emoji, 'mini-icon', item.name) +
+          '<div><strong>' + NM.escape(item.name) + '</strong><small>' +
           NM.formatMoney(item.total) + '</small></div><b>' + item.quantity + ' bán</b></div>';
       }).join('');
   }
@@ -736,11 +827,13 @@
     renderCustomers();
     renderCashbook();
     renderReports();
+    renderAccounts();
     document.getElementById('setting-products').textContent = products.length;
     document.getElementById('setting-orders').textContent = orders.length;
     document.getElementById('setting-customers').textContent = customers.length;
   }
 
+  setupCurrentUser();
   loadState();
   navigate((location.hash || '#dashboard').slice(1));
 }());

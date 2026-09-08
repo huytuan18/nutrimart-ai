@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="vi" class="auth-checking">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a7a4f">
+  <title>Tài khoản của tôi | NutriMart AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/account.css?v=7.2">
+  <style>.auth-checking body{visibility:hidden}</style>
+</head>
+<body>
+  <header class="account-header">
+    <div class="account-container header-inner">
+      <a class="account-brand" href="index.html"><span>N</span><strong>NutriMart <b>AI</b></strong></a>
+      <nav><a href="index.html#products">Mua sắm</a><a href="index.html#nutrition-ai">Dinh dưỡng AI</a><a id="workspace-link" href="man/#/DashBoard" hidden>Khu vực làm việc</a><button id="account-logout" type="button">Đăng xuất</button></nav>
+    </div>
+  </header>
+
+  <main class="account-main">
+    <div class="account-container">
+      <section class="account-welcome">
+        <div class="welcome-avatar" id="welcome-avatar">KH</div>
+        <div><span>TÀI KHOẢN NUTRIMART</span><h1>Xin chào, <b id="welcome-name">Khách hàng</b></h1><p>Quản lý thông tin cá nhân và theo dõi đơn mua hàng của bạn.</p></div>
+        <div class="welcome-role"><small>Vai trò</small><strong id="welcome-role">Khách hàng</strong></div>
+      </section>
+
+      <div class="account-layout">
+        <aside class="account-nav">
+          <button class="active" type="button" data-account-tab="overview"><span>▦</span>Tổng quan</button>
+          <button type="button" data-account-tab="orders"><span>▤</span>Đơn mua hàng <b id="order-count-badge">0</b></button>
+          <button type="button" data-account-tab="profile"><span>♙</span>Thông tin cá nhân</button>
+          <a href="index.html#products"><span>▣</span>Tiếp tục mua sắm</a>
+        </aside>
+
+        <section class="account-content">
+          <div class="account-view active" data-account-view="overview">
+            <div class="account-stats">
+              <article><i class="blue">▤</i><div><span>Tổng đơn hàng</span><strong id="stat-orders">0</strong><small>Đơn của tài khoản này</small></div></article>
+              <article><i class="green">₫</i><div><span>Tổng đã mua</span><strong id="stat-spent">0₫</strong><small>Không gồm đơn đã hủy</small></div></article>
+              <article><i class="amber">⌛</i><div><span>Đang xử lý</span><strong id="stat-pending">0</strong><small>Đơn chờ xác nhận/giao hàng</small></div></article>
+            </div>
+            <article class="account-panel"><header><div><h2>Đơn hàng gần đây</h2><p>Cập nhật tình trạng mua sắm của bạn</p></div><button type="button" data-show-orders>Xem tất cả</button></header><div id="recent-account-orders"></div></article>
+            <article class="nutrition-banner"><span>✦</span><div><h2>Khám phá NutriMart AI</h2><p>Tính BMI, TDEE và nhận gợi ý dinh dưỡng theo mục tiêu cá nhân.</p></div><a href="index.html#nutrition-ai">Phân tích ngay →</a></article>
+          </div>
+
+          <div class="account-view" data-account-view="orders">
+            <article class="account-panel"><header><div><h2>Đơn mua hàng</h2><p>Lịch sử đơn đặt trên website của bạn</p></div><select id="account-order-filter"><option value="all">Tất cả trạng thái</option><option value="on-hold">Chờ xác nhận</option><option value="processing">Đang xử lý</option><option value="completed">Hoàn thành</option><option value="cancelled">Đã hủy</option></select></header><div id="all-account-orders"></div></article>
+          </div>
+
+          <div class="account-view" data-account-view="profile">
+            <article class="account-panel profile-panel"><header><div><h2>Thông tin cá nhân</h2><p>Thông tin dùng để điền nhanh khi đặt hàng</p></div></header><form id="profile-form"><div class="profile-grid"><label><span>Họ và tên</span><input name="name" required></label><label><span>Tên đăng nhập</span><input name="username" disabled></label><label><span>Email</span><input name="email" disabled></label><label><span>Số điện thoại</span><input name="phone"></label><label class="wide"><span>Địa chỉ mặc định</span><input name="address"></label></div><button type="submit">Lưu thay đổi</button></form><p class="demo-warning"><b>ⓘ Lưu ý:</b> Đây là bản GitHub Pages để trình diễn. Không nhập dữ liệu cá nhân nhạy cảm hoặc mật khẩu bạn đang dùng ở nơi khác.</p></article>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <div class="account-toast" id="account-toast"></div>
+  <script src="assets/js/supabase-config.js?v=7.2"></script>
+  <script src="assets/js/auth.js?v=7.2"></script>
+  <script src="assets/js/product-images.js?v=7.2"></script>
+  <script src="assets/js/data.js?v=7.2"></script>
+  <script src="assets/js/account.js?v=7.2"></script>
+</body>
+</html>

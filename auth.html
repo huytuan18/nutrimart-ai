@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0875bd">
+  <meta name="description" content="Đăng nhập hệ thống NutriMart AI">
+  <title>Đăng nhập | NutriMart AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Be+Vietnam+Pro:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/auth.css?v=7.2">
+</head>
+<body class="auth-page">
+  <main class="auth-layout">
+    <section class="auth-showcase">
+      <a class="auth-brand" href="index.html"><span>N</span><strong>NutriMart <b>AI</b></strong></a>
+      <div class="showcase-copy">
+        <span class="showcase-kicker">NỀN TẢNG QUẢN LÝ BÁN HÀNG</span>
+        <h1>Một hệ thống.<br>Mọi hoạt động cửa hàng.</h1>
+        <p>Quản lý hàng hóa, tồn kho, hóa đơn, khách hàng và bán hàng tại quầy trên cùng một giao diện trực quan.</p>
+        <div class="showcase-features">
+          <article><i>▦</i><div><strong>Quản lý tập trung</strong><small>Dashboard, kho, đơn hàng và báo cáo</small></div></article>
+          <article><i>▤</i><div><strong>Bán hàng nhanh</strong><small>Màn hình POS tối ưu cho thu ngân</small></div></article>
+          <article><i>◉</i><div><strong>Kết nối cửa hàng online</strong><small>Sản phẩm và đơn hàng đồng bộ tức thì</small></div></article>
+        </div>
+      </div>
+      <div class="showcase-preview">
+        <div class="preview-top"><span></span><span></span><span></span><b>NutriMart Manager</b></div>
+        <div class="preview-body"><aside><i></i><i></i><i></i><i></i></aside><div><div class="preview-kpis"><b></b><b></b><b></b></div><span class="preview-chart"></span><em></em></div></div>
+      </div>
+      <p class="showcase-note">Tài khoản bảo vệ bởi Supabase · Dữ liệu bán hàng demo lưu trên trình duyệt</p>
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-card">
+        <div class="mobile-brand"><span>N</span><strong>NutriMart <b>AI</b></strong></div>
+        <div class="connection-status" id="connection-status" hidden><b>Chưa kết nối Supabase</b><span>Thêm Project URL và Publishable key để bật đăng nhập.</span></div>
+        <div class="auth-tabs" role="tablist">
+          <button class="active" type="button" data-auth-tab="login" role="tab">Đăng nhập</button>
+          <button type="button" data-auth-tab="register" role="tab">Đăng ký</button>
+        </div>
+
+        <section class="auth-form-view active" data-auth-view="login">
+          <header><h2>Chào mừng bạn trở lại</h2><p>Đăng nhập để tiếp tục vào NutriMart AI.</p></header>
+          <form id="login-form" novalidate>
+            <label><span>Email</span><div class="field"><i>✉</i><input name="identifier" type="email" autocomplete="username" placeholder="Nhập email tài khoản" required></div></label>
+            <label><span>Mật khẩu</span><div class="field"><i>▣</i><input name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" required><button class="password-toggle" type="button" aria-label="Hiện mật khẩu">◉</button></div></label>
+            <div class="form-options"><label class="check"><input type="checkbox" checked><span>Ghi nhớ đăng nhập</span></label><button type="button" id="forgot-password">Quên mật khẩu?</button></div>
+            <p class="form-error" id="login-error" role="alert"></p>
+            <button class="auth-submit" type="submit"><span>Đăng nhập</span><i>→</i></button>
+          </form>
+
+          <div class="demo-divider"><span>Quyền truy cập theo vai trò</span></div>
+          <div class="access-roles"><article><i class="admin">QL</i><span><strong>Admin</strong><small>Quản lý + POS</small></span></article><article><i class="staff">TN</i><span><strong>Nhân viên</strong><small>Chỉ màn hình POS</small></span></article><article><i class="customer">KH</i><span><strong>Khách hàng</strong><small>Mua hàng + xem đơn</small></span></article></div>
+        </section>
+
+        <section class="auth-form-view" data-auth-view="register">
+          <header><h2>Tạo tài khoản khách hàng</h2><p>Đăng ký để đặt hàng và theo dõi lịch sử mua sắm.</p></header>
+          <form id="register-form" novalidate>
+            <div class="register-grid">
+              <label><span>Họ và tên</span><div class="field"><i>♙</i><input name="name" autocomplete="name" placeholder="Nguyễn Văn An" required></div></label>
+              <label><span>Số điện thoại</span><div class="field"><i>☎</i><input name="phone" autocomplete="tel" placeholder="Số điện thoại"></div></label>
+              <label class="wide"><span>Email</span><div class="field"><i>✉</i><input name="email" type="email" autocomplete="email" placeholder="ban@example.com" required></div></label>
+              <label class="wide"><span>Tên đăng nhập</span><div class="field"><i>@</i><input name="username" autocomplete="username" placeholder="Ít nhất 4 ký tự không dấu" required></div></label>
+              <label><span>Mật khẩu</span><div class="field"><i>▣</i><input name="password" type="password" autocomplete="new-password" placeholder="Ít nhất 8 ký tự" required></div></label>
+              <label><span>Nhập lại mật khẩu</span><div class="field"><i>▣</i><input name="confirmPassword" type="password" autocomplete="new-password" placeholder="Nhập lại mật khẩu" required></div></label>
+            </div>
+            <label class="check terms"><input name="terms" type="checkbox" required><span>Tôi hiểu đây là website demo và không nhập thông tin nhạy cảm.</span></label>
+            <p class="form-error" id="register-error" role="alert"></p>
+            <button class="auth-submit" type="submit"><span>Tạo tài khoản</span><i>→</i></button>
+          </form>
+          <p class="role-note"><b>ⓘ</b> Đăng ký tại đây chỉ tạo vai trò <strong>Khách hàng</strong>. Admin có thể cấp quyền nhân viên sau khi người đó đăng ký.</p>
+        </section>
+
+        <section class="auth-form-view" data-auth-view="reset">
+          <header><h2>Đặt mật khẩu mới</h2><p>Tạo mật khẩu mới cho tài khoản NutriMart AI.</p></header>
+          <form id="reset-form" novalidate>
+            <label><span>Mật khẩu mới</span><div class="field"><i>▣</i><input name="password" type="password" autocomplete="new-password" placeholder="Ít nhất 8 ký tự" required><button class="password-toggle" type="button" aria-label="Hiện mật khẩu">◉</button></div></label>
+            <label><span>Nhập lại mật khẩu</span><div class="field"><i>▣</i><input name="confirmPassword" type="password" autocomplete="new-password" placeholder="Nhập lại mật khẩu" required></div></label>
+            <p class="form-error" id="reset-error" role="alert"></p>
+            <button class="auth-submit" type="submit"><span>Cập nhật mật khẩu</span><i>→</i></button>
+          </form>
+        </section>
+
+        <footer class="auth-footer"><a href="index.html">← Về cửa hàng</a><span>•</span><button type="button" id="security-info">Thông tin bảo mật</button></footer>
+      </div>
+    </section>
+  </main>
+  <div class="auth-toast" id="auth-toast" role="status"></div>
+  <script src="assets/js/supabase-config.js?v=7.2"></script>
+  <script src="assets/js/auth.js?v=7.2"></script>
+  <script src="assets/js/auth-page.js?v=7.2"></script>
+</body>
+</html>

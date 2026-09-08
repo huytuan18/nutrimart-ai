@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi">
+<html lang="vi" class="auth-checking">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/pos.css?v=5.0">
+  <link rel="stylesheet" href="assets/css/pos.css?v=7.2">
+  <style>.auth-checking body{visibility:hidden}</style>
 </head>
 <body>
   <div class="pos-app mode-delivery" id="pos-app">
@@ -37,7 +38,7 @@
         <button id="undo-action" type="button" title="Hoàn tác">↶</button>
         <button id="clear-invoice" type="button" title="Làm mới hóa đơn">↻</button>
         <button id="print-invoice" type="button" title="In tạm tính">▧</button>
-        <button class="cashier-button" type="button"><span>TN</span><strong>Thu ngân Demo</strong><b>⌄</b></button>
+        <div class="cashier-wrap"><button class="cashier-button" id="pos-user-button" type="button"><span id="pos-user-avatar">TN</span><strong id="pos-user-name">Thu ngân NutriMart</strong><b>⌄</b></button><div class="pos-user-menu"><a href="account.html" target="_top">♙ Tài khoản của tôi</a><button id="pos-logout" type="button">↪ Đăng xuất</button></div></div>
         <a class="manager-button" href="man/#/DashBoard" target="_top" title="Về trang quản lý">☰</a>
       </div>
     </header>
@@ -122,7 +123,10 @@
     <div class="receipt-success">✓</div><h2 id="receipt-title">Thanh toán thành công</h2><p id="receipt-code"></p><strong id="receipt-total"></strong><div><button id="new-invoice" type="button">Tạo hóa đơn mới</button><a href="man/#orders" target="_top">Xem danh sách hóa đơn</a></div>
   </dialog>
   <div class="pos-toast" id="pos-toast" role="status"></div>
-  <script src="assets/js/data.js?v=5.0"></script>
-  <script src="assets/js/pos.js?v=5.0"></script>
+  <script src="assets/js/supabase-config.js?v=7.2"></script>
+  <script src="assets/js/auth.js?v=7.2"></script>
+  <script src="assets/js/product-images.js?v=7.2"></script>
+  <script src="assets/js/data.js?v=7.2"></script>
+  <script src="assets/js/pos.js?v=7.2"></script>
 </body>
 </html>

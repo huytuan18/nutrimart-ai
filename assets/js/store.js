@@ -15,10 +15,32 @@
   var overlay = document.getElementById('overlay');
   var toastTimer;
 
+  function productPhoto(product, className) {
+    return '<span class="' + className + '" style="background:' + product.color + '"><img src="' +
+      NM.escape(product.image || '') + '" alt="' + NM.escape(product.name) + '" loading="lazy" ' +
+      'onerror="this.hidden=true;this.nextElementSibling.hidden=false"><i hidden>' + (product.emoji || '🥗') + '</i></span>';
+  }
+
+  function renderAccount() {
+    var user = NMAuth.current();
+    var guest = document.getElementById('guest-actions');
+    var menu = document.getElementById('account-menu');
+    guest.hidden = Boolean(user);
+    menu.hidden = !user;
+    if (!user) return;
+    var initials = String(user.name || 'KH').trim().split(/\s+/).slice(-2).map(function (part) { return part.charAt(0); }).join('').toUpperCase();
+    document.getElementById('header-avatar').textContent = initials;
+    document.getElementById('header-user-name').textContent = user.name;
+    var workspace = document.getElementById('header-workspace');
+    workspace.hidden = user.role === 'customer';
+    workspace.href = user.role === 'staff' ? 'sale/#/' : 'man/#/DashBoard';
+    workspace.textContent = user.role === 'staff' ? 'Màn hình bán hàng' : 'Trang quản lý';
+  }
+
   function renderCategories() {
     var grid = document.getElementById('category-grid');
     grid.innerHTML = NM.categories.map(function (category) {
-      return '<button class="category-card" data-category="' + category.slug + '"><span style="background:' + category.color + '">' + category.emoji + '</span><strong>' + NM.escape(category.name) + '</strong><small>' + category.count + ' sản phẩm</small></button>';
+      return '<button class="category-card" data-category="' + category.slug + '"><span style="background:' + category.color + '"><img src="' + NM.escape(category.image) + '" alt="" loading="lazy" onerror="this.hidden=true"><i>' + category.emoji + '</i></span><strong>' + NM.escape(category.name) + '</strong><small>' + category.count + ' sản phẩm</small></button>';
     }).join('');
 
     categoryFilter.innerHTML = '<option value="all">Tất cả danh mục</option>' + NM.categories.map(function (category) {
@@ -54,7 +76,7 @@
     var filtered = filteredProducts();
     var shown = filtered.slice(0,visibleCount);
     productGrid.innerHTML = shown.map(function (product,index) {
-      return '<article class="product-card"><div class="product-image" style="--product-bg:' + product.color + '"><span>' + product.emoji + '</span>' +
+      return '<article class="product-card"><div class="product-image" style="--product-bg:' + product.color + '"><img src="' + NM.escape(product.image || '') + '" alt="' + NM.escape(product.name) + '" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="product-image-fallback" hidden>' + product.emoji + '</span>' +
         (product.healthy ? '<b class="product-badge">HEALTHY</b>' : (index < 3 ? '<b class="product-badge">NỔI BẬT</b>' : '')) +
         '<button class="product-wish" title="Yêu thích">♡</button></div><div class="product-body"><span class="product-category">' + NM.escape(product.categoryName) + '</span><h3>' + NM.escape(product.name) + '</h3>' +
         '<div class="nutrition-chips"><span>' + product.calories + ' kcal</span><span>' + product.protein + 'g protein</span><span>' + product.fiber + 'g xơ</span></div>' +
@@ -103,7 +125,7 @@
       return;
     }
     container.innerHTML = details.map(function (item) {
-      return '<div class="cart-line" data-cart-line="' + item.id + '"><div class="cart-line-icon" style="background:' + item.color + '">' + item.emoji + '</div><div><h4>' + NM.escape(item.name) + '</h4><span class="cart-line-price">' + NM.formatMoney(item.price * item.quantity) + '</span><div class="qty-control"><button data-qty="minus">−</button><b>' + item.quantity + '</b><button data-qty="plus">+</button></div></div><button class="remove-cart" data-qty="remove">×</button></div>';
+      return '<div class="cart-line" data-cart-line="' + item.id + '">' + productPhoto(item,'cart-line-icon') + '<div><h4>' + NM.escape(item.name) + '</h4><span class="cart-line-price">' + NM.formatMoney(item.price * item.quantity) + '</span><div class="qty-control"><button data-qty="minus">−</button><b>' + item.quantity + '</b><button data-qty="plus">+</button></div></div><button class="remove-cart" data-qty="remove">×</button></div>';
     }).join('');
   }
 
@@ -157,20 +179,39 @@
   });
 
   var checkoutModal = document.getElementById('checkout-modal');
-  document.getElementById('checkout-button').addEventListener('click',function () { closeCart();checkoutModal.showModal(); });
+  async function openCheckout() {
+    try { await NMAuth.ready; } catch (error) { location.href = NMAuth.loginUrl('checkout','config'); return; }
+    var user = NMAuth.current();
+    if (!user) {
+      location.href = NMAuth.loginUrl('checkout');
+      return;
+    }
+    var form = document.getElementById('checkout-form');
+    form.elements.name.value = user.name || '';
+    form.elements.phone.value = user.phone || '';
+    form.elements.email.value = user.email || '';
+    form.elements.address.value = user.address || '';
+    closeCart();
+    checkoutModal.showModal();
+  }
+  document.getElementById('checkout-button').addEventListener('click',openCheckout);
   document.getElementById('close-checkout').addEventListener('click',function () { checkoutModal.close(); });
-  document.getElementById('checkout-form').addEventListener('submit',function (event) {
+  document.getElementById('checkout-form').addEventListener('submit',async function (event) {
     event.preventDefault();
+    try { await NMAuth.ready; } catch (error) { location.href = NMAuth.loginUrl('checkout','config'); return; }
     var details = cartDetails();
     if (!details.length) return;
+    var sessionUser = NMAuth.current();
+    if (!sessionUser) { location.href = NMAuth.loginUrl('checkout'); return; }
     var data = new FormData(event.currentTarget);
     var orders = NM.getOrders();
     var now = new Date();
     var order = {
       id:'NM' + String(now.getTime()).slice(-6),createdAt:now.toISOString(),
-      customer:{name:data.get('name'),phone:data.get('phone'),address:data.get('address')},
+      userId:sessionUser.id,
+      customer:{name:data.get('name'),phone:data.get('phone'),email:data.get('email'),address:data.get('address')},
       payment:data.get('payment'),status:'on-hold',source:'Website',note:data.get('note'),
-      items:details.map(function (item) { return {id:item.id,name:item.name,price:item.price,quantity:item.quantity,emoji:item.emoji}; }),
+      items:details.map(function (item) { return {id:item.id,name:item.name,price:item.price,quantity:item.quantity,emoji:item.emoji,image:item.image}; }),
       total:details.reduce(function (sum,item) { return sum + item.price * item.quantity; },0)
     };
     orders.unshift(order);NM.setOrders(orders);
@@ -188,7 +229,16 @@
   document.getElementById('newsletter-form').addEventListener('submit',function(event){event.preventDefault();showToast('Đăng ký nhận tin thành công!','success');event.currentTarget.reset();});
   document.getElementById('menu-toggle').addEventListener('click',function(){document.getElementById('main-nav').classList.toggle('open');});
   document.querySelectorAll('.main-nav a').forEach(function(link){link.addEventListener('click',function(){document.getElementById('main-nav').classList.remove('open');});});
+  document.getElementById('account-menu-button').addEventListener('click',function(event){event.stopPropagation();document.getElementById('account-menu').classList.toggle('open');});
+  document.getElementById('header-logout').addEventListener('click',async function(){await NMAuth.logout();renderAccount();showToast('Bạn đã đăng xuất.','success');});
+  document.addEventListener('click',function(event){if(!event.target.closest('#account-menu'))document.getElementById('account-menu').classList.remove('open');});
   window.addEventListener('storage',function(){products=NM.getProducts();cart=NM.getCart();renderProducts();renderCart();});
 
+  renderAccount();
+  NMAuth.ready.then(renderAccount).catch(function () { renderAccount(); });
   renderCategories();renderProducts();renderCart();
+  if (new URLSearchParams(location.search).get('resumeCheckout') === '1' && cart.length) {
+    setTimeout(openCheckout,250);
+    history.replaceState(null,'',location.pathname + '#products');
+  }
 }());

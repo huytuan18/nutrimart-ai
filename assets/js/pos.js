@@ -1,5 +1,8 @@
-(function () {
+(async function () {
   'use strict';
+
+  var authorizedUser = await NMAuth.requireRole(['admin','staff'],'sale');
+  if (!authorizedUser) return;
 
   var products = NM.getProducts();
   var orders = NM.getOrders();
@@ -16,6 +19,23 @@
   var productSearch = document.getElementById('pos-product-search');
   var cartLines = document.getElementById('pos-cart-lines');
   var discountInput = document.getElementById('pos-discount');
+
+  function photo(product, className) {
+    return '<span class="' + className + '" style="background:' + (product.color || '#eef5f8') + '"><img src="' +
+      NM.escape(product.image || '') + '" alt="' + NM.escape(product.name || '') + '" loading="lazy" ' +
+      'onerror="this.hidden=true;this.nextElementSibling.hidden=false"><i hidden>' + (product.emoji || '🥗') + '</i></span>';
+  }
+
+  function setupCurrentUser() {
+    var user = NMAuth.current();
+    if (!user) return;
+    var avatar = String(user.name || 'TN').trim().split(/\s+/).slice(-2).map(function (part) { return part.charAt(0); }).join('').toUpperCase();
+    document.getElementById('pos-user-avatar').textContent = avatar;
+    document.getElementById('pos-user-name').textContent = user.name;
+    var select = document.querySelector('.order-line select');
+    select.innerHTML = '<option>' + NM.escape(user.name) + '</option>';
+    document.querySelector('.manager-button').hidden = user.role !== 'admin';
+  }
 
   function loadCart() {
     try {
@@ -77,8 +97,7 @@
     var filtered = matchingProducts();
     document.getElementById('pos-product-list').innerHTML = filtered.map(function (product) {
       return '<button class="product-result" type="button" data-add-product="' + product.id + '" ' +
-        (product.stock < 1 ? 'disabled' : '') + '><span class="result-icon" style="background:' +
-        product.color + '">' + product.emoji + '</span><span class="result-copy"><strong>' +
+        (product.stock < 1 ? 'disabled' : '') + '>' + photo(product,'result-icon') + '<span class="result-copy"><strong>' +
         NM.escape(product.name) + '</strong><small>' + NM.escape(product.sku) + ' · Tồn ' + product.stock +
         ' · ' + NM.escape(product.categoryName) + '</small></span><strong>' + NM.formatMoney(product.price) +
         '</strong><b>＋</b></button>';
@@ -114,8 +133,8 @@
     var items = cartItems();
     cartLines.innerHTML = items.length ? items.map(function (item, index) {
       return '<div class="cart-line" data-cart-id="' + item.id + '"><span class="line-no">' + (index + 1) +
-        '</span><div class="line-product"><span style="background:' + (item.color || '#eef5f8') + '">' + item.emoji +
-        '</span><div><strong>' + NM.escape(item.name) + '</strong><small>' + NM.escape(item.sku) +
+        '</span><div class="line-product">' + photo(item,'line-product-photo') +
+        '<div><strong>' + NM.escape(item.name) + '</strong><small>' + NM.escape(item.sku) +
         ' · Tồn ' + item.stock + '</small></div></div><div class="quantity-control"><button type="button" data-qty="minus">−</button>' +
         '<input data-qty-input type="number" min="1" max="' + item.stock + '" value="' + item.quantity +
         '" aria-label="Số lượng"><button type="button" data-qty="plus">＋</button></div><span class="line-price">' +
@@ -150,6 +169,7 @@
         sku: product.sku,
         name: product.name,
         emoji: product.emoji,
+        image: product.image,
         color: product.color,
         price: product.price,
         stock: product.stock,
@@ -291,13 +311,15 @@
       status: status,
       source: 'POS',
       saleMode: saleMode,
+      staffId: NMAuth.current() ? NMAuth.current().id : '',
+      staffName: NMAuth.current() ? NMAuth.current().name : '',
       shipping: saleMode === 'delivery' ? shippingTab : '',
       shippingFee: shippingFee(),
       note: document.getElementById('pos-order-note').value.trim(),
       deliveryNote: document.getElementById('delivery-note').value.trim(),
       discount: discount(),
       items: cartItems().map(function (item) {
-        return { id: item.id, name: item.name, emoji: item.emoji, price: item.price, quantity: item.quantity };
+        return { id: item.id, name: item.name, emoji: item.emoji, image:item.image, price: item.price, quantity: item.quantity };
       }),
       total: total()
     };
@@ -427,6 +449,19 @@
     renderProducts();
   });
 
+  document.getElementById('pos-user-button').addEventListener('click', function (event) {
+    event.stopPropagation();
+    document.querySelector('.cashier-wrap').classList.toggle('open');
+  });
+  document.getElementById('pos-logout').addEventListener('click', async function () {
+    await NMAuth.logout();
+    window.top.location.replace(NMAuth.rootUrl('auth.html'));
+  });
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.cashier-wrap')) document.querySelector('.cashier-wrap').classList.remove('open');
+  });
+
+  setupCurrentUser();
   renderClock();
   setInterval(renderClock, 30000);
   renderCategories();

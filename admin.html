@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi">
+<html lang="vi" class="auth-checking">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/admin.css?v=5.0">
+  <link rel="stylesheet" href="assets/css/admin.css?v=7.2">
+  <style>.auth-checking body{visibility:hidden}</style>
 </head>
 <body>
   <div class="admin-app" id="admin-app">
@@ -26,7 +27,7 @@
         <button class="utility-icon notice-icon" type="button" title="Thông báo">♢<b>3</b></button>
         <button class="utility-lang" type="button">VI⌄</button>
         <button class="utility-icon" type="button" data-page="settings" title="Thiết lập">⚙</button>
-        <button class="utility-user" type="button" data-demo-action="Đây là tài khoản trình diễn, không chứa mật khẩu thật"><span>NM</span><span><strong>Quản trị Demo</strong><small>Chi nhánh trung tâm</small></span><b>⌄</b></button>
+        <div class="utility-user-wrap"><button class="utility-user" id="admin-user-button" type="button"><span id="admin-user-avatar">NM</span><span><strong id="admin-user-name">Quản trị NutriMart</strong><small id="admin-user-role">Quản trị viên</small></span><b>⌄</b></button><div class="utility-user-menu"><a href="account.html" target="_top">♙ Tài khoản của tôi</a><a href="sale/#/" target="_top">▤ Màn hình bán hàng</a><button id="admin-logout" type="button">↪ Đăng xuất</button></div></div>
       </div>
     </header>
 
@@ -91,8 +92,9 @@
         </section>
 
         <section class="admin-page" data-admin-page="staff">
-          <div class="module-toolbar"><div class="module-tabs"><button class="active" type="button">Danh sách nhân viên</button><button type="button">Lịch làm việc</button><button type="button">Chấm công</button><button type="button">Bảng lương</button></div><button class="button primary" type="button" data-demo-action="Đã mở biểu mẫu nhân viên mới">＋ Thêm nhân viên</button></div>
-          <div class="staff-grid"><article class="staff-card"><span class="staff-avatar blue">QL</span><div><h3>Quản lý Demo</h3><p>Quản lý cửa hàng</p><small>Đang làm việc</small></div><b class="status green">Đang hoạt động</b></article><article class="staff-card"><span class="staff-avatar green">TN</span><div><h3>Thu ngân Demo</h3><p>Thu ngân</p><small>Ca 08:00 - 17:00</small></div><b class="status green">Đang trong ca</b></article><article class="staff-card"><span class="staff-avatar violet">KH</span><div><h3>Nhân viên kho Demo</h3><p>Quản lý kho</p><small>Ca 09:00 - 18:00</small></div><b class="status blue">Ca tiếp theo</b></article><article class="staff-card"><span class="staff-avatar amber">GH</span><div><h3>Giao hàng Demo</h3><p>Nhân viên giao hàng</p><small>Không có thông tin thật</small></div><b class="status gray">Ngoài ca</b></article></div>
+          <div class="module-toolbar"><div class="module-tabs"><button class="active" type="button">Tài khoản &amp; nhân viên</button><button type="button">Lịch làm việc</button><button type="button">Chấm công</button><button type="button">Bảng lương</button></div><button class="button primary" id="add-account-button" type="button">↻ Làm mới tài khoản</button></div>
+          <div class="staff-grid" id="staff-grid"></div>
+          <article class="panel accounts-panel"><div class="panel-head"><div><h2>Phân quyền tài khoản Supabase</h2><p>Người dùng đăng ký trước, sau đó admin cấp quyền nhân viên hoặc quản trị tại đây.</p></div><span class="status green">RLS bảo vệ</span></div><div class="table-wrap"><table><thead><tr><th>Người dùng</th><th>Tên đăng nhập</th><th>Email</th><th>Vai trò</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody id="accounts-table"></tbody></table></div></article>
         </section>
 
         <section class="admin-page" data-admin-page="cashbook">
@@ -121,23 +123,26 @@
         </section>
 
         <section class="admin-page" data-admin-page="settings">
-          <div class="settings-grid"><article class="panel settings-card"><div class="panel-head"><div><h2>Thông tin cửa hàng</h2><p>Thông tin hiển thị trong hệ thống</p></div></div><form id="store-settings"><label><span>Tên cửa hàng</span><input value="NutriMart AI"></label><label><span>Chi nhánh</span><input value="Chi nhánh trung tâm"></label><label><span>Điện thoại</span><input value="DEMO-HOTLINE"></label><label><span>Email</span><input value="hello@nutrimart.example.invalid"></label><label><span>Địa chỉ</span><input value="Địa chỉ cửa hàng minh họa"></label><button class="button primary" type="submit">Lưu thay đổi</button></form></article><article class="panel settings-card"><div class="panel-head"><div><h2>Dữ liệu trình diễn</h2><p>Lưu riêng trong trình duyệt hiện tại</p></div><span class="status green">Đang hoạt động</span></div><div class="data-status"><div><span>Hàng hóa</span><strong id="setting-products">0</strong></div><div><span>Hóa đơn</span><strong id="setting-orders">0</strong></div><div><span>Khách hàng</span><strong id="setting-customers">0</strong></div></div><button class="button danger" id="reset-data" type="button">↻ Khôi phục dữ liệu mẫu</button><p class="security-note"><b>Bản trình diễn GitHub Pages</b>Mỗi người dùng có dữ liệu riêng trong trình duyệt. Mã nguồn không chứa tài khoản hoặc mật khẩu quản trị.</p></article></div>
+          <div class="settings-grid"><article class="panel settings-card"><div class="panel-head"><div><h2>Thông tin cửa hàng</h2><p>Thông tin hiển thị trong hệ thống</p></div></div><form id="store-settings"><label><span>Tên cửa hàng</span><input value="NutriMart AI"></label><label><span>Chi nhánh</span><input value="Chi nhánh trung tâm"></label><label><span>Điện thoại</span><input value="DEMO-HOTLINE"></label><label><span>Email</span><input value="hello@nutrimart.example.invalid"></label><label><span>Địa chỉ</span><input value="Địa chỉ cửa hàng minh họa"></label><button class="button primary" type="submit">Lưu thay đổi</button></form></article><article class="panel settings-card"><div class="panel-head"><div><h2>Dữ liệu trình diễn</h2><p>Lưu riêng trong trình duyệt hiện tại</p></div><span class="status green">Đang hoạt động</span></div><div class="data-status"><div><span>Hàng hóa</span><strong id="setting-products">0</strong></div><div><span>Hóa đơn</span><strong id="setting-orders">0</strong></div><div><span>Khách hàng</span><strong id="setting-customers">0</strong></div></div><button class="button danger" id="reset-data" type="button">↻ Khôi phục dữ liệu mẫu</button><p class="security-note"><b>Bảo mật hai lớp dữ liệu</b>Tài khoản và vai trò được lưu trên Supabase với RLS. Hàng hóa, hóa đơn và sổ quỹ hiện vẫn là dữ liệu đồ án lưu trong trình duyệt.</p></article></div>
         </section>
       </div>
     </main>
 
-    <div class="demo-footer"><span>ⓘ</span><p><strong>NutriMart AI đang chạy ở chế độ trình diễn.</strong> Dữ liệu được lưu cục bộ trên trình duyệt này.</p><a href="sale/#/" target="_top">Mở màn hình bán hàng</a><button type="button" aria-label="Đóng">×</button></div>
+    <div class="demo-footer"><span>ⓘ</span><p><strong>Tài khoản được bảo vệ bằng Supabase.</strong> Dữ liệu bán hàng đồ án hiện lưu cục bộ trên trình duyệt này.</p><a href="sale/#/" target="_top">Mở màn hình bán hàng</a><button type="button" aria-label="Đóng">×</button></div>
     <div class="floating-tools"><button type="button" title="Lên đầu trang" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button><button type="button" data-demo-action="Trung tâm trợ giúp NutriMart AI">?</button></div>
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
   </div>
 
-  <dialog class="admin-modal" id="product-modal"><button class="modal-close" data-close-modal type="button">×</button><h2 id="product-modal-title">Thêm hàng hóa</h2><p>Thông tin sẽ cập nhật trên cửa hàng của trình duyệt này.</p><form id="product-form"><input type="hidden" name="id"><div class="form-grid"><label class="wide"><span>Tên hàng hóa</span><input name="name" required></label><label><span>Mã hàng</span><input name="sku" required></label><label><span>Nhóm hàng</span><select name="category" id="product-category-input"></select></label><label><span>Giá bán</span><input name="price" type="number" min="0" required></label><label><span>Tồn kho</span><input name="stock" type="number" min="0" required></label><label><span>Năng lượng (kcal)</span><input name="calories" type="number" min="0" required></label><label><span>Protein (g)</span><input name="protein" type="number" min="0" step=".1" required></label><label><span>Chất xơ (g)</span><input name="fiber" type="number" min="0" step=".1" required></label><label><span>Biểu tượng</span><input name="emoji" value="🥗" required></label></div><button class="button primary full" type="submit">Lưu hàng hóa</button></form></dialog>
+  <dialog class="admin-modal" id="product-modal"><button class="modal-close" data-close-modal type="button">×</button><h2 id="product-modal-title">Thêm hàng hóa</h2><p>Thông tin sẽ cập nhật trên cửa hàng của trình duyệt này.</p><form id="product-form"><input type="hidden" name="id"><div class="form-grid"><label class="wide"><span>Tên hàng hóa</span><input name="name" required></label><label><span>Mã hàng</span><input name="sku" required></label><label><span>Nhóm hàng</span><select name="category" id="product-category-input"></select></label><label><span>Giá bán</span><input name="price" type="number" min="0" required></label><label><span>Tồn kho</span><input name="stock" type="number" min="0" required></label><label><span>Năng lượng (kcal)</span><input name="calories" type="number" min="0" required></label><label><span>Protein (g)</span><input name="protein" type="number" min="0" step=".1" required></label><label><span>Chất xơ (g)</span><input name="fiber" type="number" min="0" step=".1" required></label><label><span>Biểu tượng dự phòng</span><input name="emoji" value="🥗" required></label><label class="wide"><span>Đường dẫn ảnh sản phẩm</span><input name="image" type="url" placeholder="https://images.example.com/san-pham.jpg"></label></div><button class="button primary full" type="submit">Lưu hàng hóa</button></form></dialog>
   <dialog class="admin-modal" id="customer-modal"><button class="modal-close" data-close-modal type="button">×</button><h2>Thêm khách hàng</h2><p>Tạo hồ sơ khách hàng mới.</p><form id="customer-form"><div class="form-grid"><label class="wide"><span>Họ và tên</span><input name="name" required></label><label><span>Số điện thoại / Mã liên hệ</span><input name="phone" required></label><label><span>Email</span><input name="email" type="email"></label><label class="wide"><span>Địa chỉ</span><input name="address"></label></div><button class="button primary full" type="submit">Thêm khách hàng</button></form></dialog>
   <dialog class="admin-modal" id="cashbook-modal"><button class="modal-close" data-close-modal type="button">×</button><h2 id="cashbook-modal-title">Lập phiếu thu</h2><p>Ghi nhận giao dịch vào sổ quỹ.</p><form id="cashbook-form"><input name="type" type="hidden" value="income"><div class="form-grid"><label><span>Người nộp/nhận</span><input name="partner" required></label><label><span>Giá trị</span><input name="amount" type="number" min="1000" required></label><label class="wide"><span>Nội dung</span><input name="reason" required></label></div><button class="button primary full" type="submit">Lưu phiếu</button></form></dialog>
   <dialog class="admin-modal order-modal" id="order-modal"><button class="modal-close" data-close-modal type="button">×</button><div id="order-detail"></div></dialog>
   <div class="admin-toast" id="admin-toast" role="status"></div>
 
-  <script src="assets/js/data.js?v=5.0"></script>
-  <script src="assets/js/admin.js?v=5.0"></script>
+  <script src="assets/js/supabase-config.js?v=7.2"></script>
+  <script src="assets/js/auth.js?v=7.2"></script>
+  <script src="assets/js/product-images.js?v=7.2"></script>
+  <script src="assets/js/data.js?v=7.2"></script>
+  <script src="assets/js/admin.js?v=7.2"></script>
 </body>
 </html>
