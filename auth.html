@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Be+Vietnam+Pro:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/auth.css?v=7.2">
+  <link rel="stylesheet" href="assets/css/auth.css?v=9.0">
   <style>[hidden]{display:none!important}</style>
 </head>
 <body class="auth-page">
@@ -74,6 +74,34 @@
           <p class="role-note"><b>ⓘ</b> Đăng ký tại đây chỉ tạo vai trò <strong>Khách hàng</strong>. Admin có thể cấp quyền nhân viên sau khi người đó đăng ký.</p>
         </section>
 
+        <section class="auth-form-view otp-view" data-auth-view="verify">
+          <header class="otp-header">
+            <span class="otp-mail-icon" aria-hidden="true">✉</span>
+            <h2>Xác nhận email của bạn</h2>
+            <p>Mã xác nhận gồm 6 chữ số đã được gửi tới</p>
+            <strong id="otp-email">email@example.com</strong>
+          </header>
+          <form id="otp-form" novalidate>
+            <div class="otp-code" id="otp-code" aria-label="Mã xác nhận 6 chữ số">
+              <input data-otp-digit inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="one-time-code" aria-label="Số thứ 1" required>
+              <input data-otp-digit inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Số thứ 2" required>
+              <input data-otp-digit inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Số thứ 3" required>
+              <input data-otp-digit inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Số thứ 4" required>
+              <input data-otp-digit inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Số thứ 5" required>
+              <input data-otp-digit inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Số thứ 6" required>
+            </div>
+            <p class="otp-help">Nhập mã trong email. Mã chỉ sử dụng được một lần và sẽ hết hạn.</p>
+            <p class="form-error" id="otp-error" role="alert"></p>
+            <button class="auth-submit" type="submit"><span>Xác nhận tài khoản</span><i>✓</i></button>
+          </form>
+          <div class="otp-actions">
+            <span>Chưa nhận được mã?</span>
+            <button type="button" id="resend-otp" disabled>Gửi lại sau 60 giây</button>
+          </div>
+          <button class="change-email" type="button" id="change-signup-email">← Đổi địa chỉ email</button>
+          <div class="otp-security"><b>✓</b><span>Sau khi xác nhận đúng mã, tài khoản sẽ được đăng nhập và dùng ngay.</span></div>
+        </section>
+
         <section class="auth-form-view" data-auth-view="reset">
           <header><h2>Đặt mật khẩu mới</h2><p>Tạo mật khẩu mới cho tài khoản NutriMart AI.</p></header>
           <form id="reset-form" novalidate>
@@ -89,8 +117,8 @@
     </section>
   </main>
   <div class="auth-toast" id="auth-toast" role="status"></div>
-  <script src="assets/js/supabase-config.js?v=8.1"></script>
-  <script src="assets/js/auth.js?v=8.1"></script>
-  <script src="assets/js/auth-page.js?v=7.2"></script>
+  <script src="assets/js/supabase-config.js?v=9.0"></script>
+  <script src="assets/js/auth.js?v=9.0"></script>
+  <script src="assets/js/auth-page.js?v=9.0"></script>
 </body>
 </html>
