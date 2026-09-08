@@ -731,3 +731,248 @@ Object.assign(window.NM_PRODUCT_PHOTOS, {
     "license": "Unsplash License"
   }
 });
+
+
+/* Bộ ảnh tuyển chọn v9.1: ảnh chụp đúng từng mặt hàng, đã kiểm tra trực quan. */
+Object.assign(window.NM_PRODUCT_PHOTOS, {
+  "NMAI002": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Spinach_leaves.jpg/960px-Spinach_leaves.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Spinach_leaves.jpg",
+    "title": "Spinach leaves.jpg",
+    "license": "CC BY 3.0"
+  },
+  "NMAI003": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Carrots.jpg/960px-Carrots.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Carrots.jpg",
+    "title": "Carrots.jpg",
+    "license": "Public domain"
+  },
+  "NMAI006": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/Butternut_squash.jpg/960px-Butternut_squash.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Butternut_squash.jpg",
+    "title": "Butternut squash.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI007": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Asparagus-Bundle.jpg/960px-Asparagus-Bundle.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Asparagus-Bundle.jpg",
+    "title": "Asparagus-Bundle.jpg",
+    "license": "CC BY-SA 3.0"
+  },
+  "NMAI009": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/CSA-Red-Russian-Kale.jpg/960px-CSA-Red-Russian-Kale.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:CSA-Red-Russian-Kale.jpg",
+    "title": "CSA-Red-Russian-Kale.jpg",
+    "license": "Public domain"
+  },
+  "NMAI011": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Cucumber_and_cross_section.jpg/960px-Cucumber_and_cross_section.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Cucumber_and_cross_section.jpg",
+    "title": "Cucumber and cross section.jpg",
+    "license": "GFDL 1.2"
+  },
+  "NMAI013": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Fresh_Sweet_Corn.jpg/960px-Fresh_Sweet_Corn.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Fresh_Sweet_Corn.jpg",
+    "title": "Fresh Sweet Corn.jpg",
+    "license": "CC0"
+  },
+  "NMAI019": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Red_grapes_2.jpg/960px-Red_grapes_2.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Red_grapes_2.jpg",
+    "title": "Red grapes 2.jpg",
+    "license": "CC BY-SA 3.0"
+  },
+  "NMAI021": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Red_pitaya_pulp.jpg/960px-Red_pitaya_pulp.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Red_pitaya_pulp.jpg",
+    "title": "Red pitaya pulp.jpg",
+    "license": "CC0"
+  },
+  "NMAI022": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Ripe_mangoes.jpg/960px-Ripe_mangoes.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ripe_mangoes.jpg",
+    "title": "Ripe mangoes.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI027": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Kycklingfil%C3%A9.jpg/960px-Kycklingfil%C3%A9.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Kycklingfil%C3%A9.jpg",
+    "title": "Kycklingfilé.jpg",
+    "license": "Public domain"
+  },
+  "NMAI028": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Raw_chicken_thighs.jpg/960px-Raw_chicken_thighs.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Raw_chicken_thighs.jpg",
+    "title": "Raw chicken thighs.jpg",
+    "license": "CC BY 3.0"
+  },
+  "NMAI030": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Beef_shank.jpg/960px-Beef_shank.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Beef_shank.jpg",
+    "title": "Beef shank.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI031": {
+    "image": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Pork_Tenderloin%2C_Post_Brine_%286853997679%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Pork_Tenderloin%2C_Post_Brine_(6853997679).jpg",
+    "title": "Pork Tenderloin, Post Brine (6853997679).jpg",
+    "license": "CC BY 2.0"
+  },
+  "NMAI037": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Diced_Pork_Shoulder_%2813152872373%29.jpg/960px-Diced_Pork_Shoulder_%2813152872373%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Diced_Pork_Shoulder_(13152872373).jpg",
+    "title": "Diced Pork Shoulder (13152872373).jpg",
+    "license": "CC BY 2.0"
+  },
+  "NMAI038": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Magret_de_Canard_du_Sud_Ouest_%28in_Poznan%29.JPG/960px-Magret_de_Canard_du_Sud_Ouest_%28in_Poznan%29.JPG",
+    "source": "https://commons.wikimedia.org/wiki/File:Magret_de_Canard_du_Sud_Ouest_(in_Poznan).JPG",
+    "title": "Magret de Canard du Sud Ouest (in Poznan).JPG",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI041": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Pangasius_meat.jpg/960px-Pangasius_meat.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Pangasius_meat.jpg",
+    "title": "Pangasius meat.jpg",
+    "license": "CC0"
+  },
+  "NMAI042": {
+    "image": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Korean_cuisine-Godeungeo_hoe-Sliced_raw_mackerel-01.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Korean_cuisine-Godeungeo_hoe-Sliced_raw_mackerel-01.jpg",
+    "title": "Korean cuisine-Godeungeo hoe-Sliced raw mackerel-01.jpg",
+    "license": "CC BY-SA 3.0"
+  },
+  "NMAI043": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Raw_Shrimp_on_Plate_1_2017-01-22.jpg/960px-Raw_Shrimp_on_Plate_1_2017-01-22.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Raw_Shrimp_on_Plate_1_2017-01-22.jpg",
+    "title": "Raw Shrimp on Plate 1 2017-01-22.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI044": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Squid_at_the_market_Malapascua.jpg/960px-Squid_at_the_market_Malapascua.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Squid_at_the_market_Malapascua.jpg",
+    "title": "Squid at the market Malapascua.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI045": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Raw_tuna.jpg/960px-Raw_tuna.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Raw_tuna.jpg",
+    "title": "Raw tuna.jpg",
+    "license": "CC BY 2.0"
+  },
+  "NMAI046": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Seasoned_herring_fillet.jpg/960px-Seasoned_herring_fillet.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Seasoned_herring_fillet.jpg",
+    "title": "Seasoned herring fillet.jpg",
+    "license": "CC0"
+  },
+  "NMAI049": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Liat_Portal_for_Foodie_Disorder_-_Fresh_Scallops.jpg/960px-Liat_Portal_for_Foodie_Disorder_-_Fresh_Scallops.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Liat_Portal_for_Foodie_Disorder_-_Fresh_Scallops.jpg",
+    "title": "Liat Portal for Foodie Disorder - Fresh Scallops.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI051": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Octopus_as_food_at_Noryangjin_Fisheries_Wholesale_Market_in_Seoul_South_Korea.jpg/960px-Octopus_as_food_at_Noryangjin_Fisheries_Wholesale_Market_in_Seoul_South_Korea.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Octopus_as_food_at_Noryangjin_Fisheries_Wholesale_Market_in_Seoul_South_Korea.jpg",
+    "title": "Octopus as food at Noryangjin Fisheries Wholesale Market in Seoul South Korea.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI054": {
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Chicken_eggs.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Chicken_eggs.jpg",
+    "title": "Chicken eggs.jpg",
+    "license": "CC BY-SA 3.0"
+  },
+  "NMAI057": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Plain_Yogurt.jpg/960px-Plain_Yogurt.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Plain_Yogurt.jpg",
+    "title": "Plain Yogurt.jpg",
+    "license": "CC0"
+  },
+  "NMAI065": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Brown_rice_%28whole_grain_rice%29_photographed_in_West_Bengal%2C_India.jpg/960px-Brown_rice_%28whole_grain_rice%29_photographed_in_West_Bengal%2C_India.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Brown_rice_(whole_grain_rice)_photographed_in_West_Bengal%2C_India.jpg",
+    "title": "Brown rice (whole grain rice) photographed in West Bengal, India.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI066": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Chia_Seed.jpg/960px-Chia_Seed.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Chia_Seed.jpg",
+    "title": "Chia Seed.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI068": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Whole_wheat_penne%2C_cooked_and_uncooked.jpg/960px-Whole_wheat_penne%2C_cooked_and_uncooked.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Whole_wheat_penne%2C_cooked_and_uncooked.jpg",
+    "title": "Whole wheat penne, cooked and uncooked.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI073": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Vegan_granola_bowl_%2844302860265%29.jpg/960px-Vegan_granola_bowl_%2844302860265%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Vegan_granola_bowl_(44302860265).jpg",
+    "title": "Vegan granola bowl (44302860265).jpg",
+    "license": "CC BY 2.0"
+  },
+  "NMAI075": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Cellophane_noodles.jpg/960px-Cellophane_noodles.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Cellophane_noodles.jpg",
+    "title": "Cellophane noodles.jpg",
+    "license": "CC BY 2.0"
+  },
+  "NMAI079": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/White_cup_with_green_tea_in_it_2.jpg/960px-White_cup_with_green_tea_in_it_2.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:White_cup_with_green_tea_in_it_2.jpg",
+    "title": "White cup with green tea in it 2.jpg",
+    "license": "CC BY 3.0"
+  },
+  "NMAI080": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Apple_juice_with_3apples.jpg/960px-Apple_juice_with_3apples.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Apple_juice_with_3apples.jpg",
+    "title": "Apple juice with 3apples.jpg",
+    "license": "CC BY-SA 3.0"
+  },
+  "NMAI083": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/S%E1%BB%AFa_b%E1%BA%AFp_Vi%E1%BB%87t_Nam.JPG/960px-S%E1%BB%AFa_b%E1%BA%AFp_Vi%E1%BB%87t_Nam.JPG",
+    "source": "https://commons.wikimedia.org/wiki/File:S%E1%BB%AFa_b%E1%BA%AFp_Vi%E1%BB%87t_Nam.JPG",
+    "title": "Sữa bắp Việt Nam.JPG",
+    "license": "Public domain"
+  },
+  "NMAI084": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Avocado_shake.jpg/960px-Avocado_shake.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Avocado_shake.jpg",
+    "title": "Avocado shake.jpg",
+    "license": "CC BY 4.0"
+  },
+  "NMAI085": {
+    "image": "https://upload.wikimedia.org/wikipedia/commons/9/97/Celery_juice.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Celery_juice.jpg",
+    "title": "Celery juice.jpg",
+    "license": "CC0"
+  },
+  "NMAI089": {
+    "image": "https://upload.wikimedia.org/wikipedia/commons/7/72/Chicken_salad.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Chicken_salad.jpg",
+    "title": "Chicken salad.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI090": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Salmon_Poke.jpg/960px-Salmon_Poke.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Salmon_Poke.jpg",
+    "title": "Salmon Poke.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI095": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Japanese_Style_Beef_Big_Rice_Bowl_in_Hong_Kong.jpg/960px-Japanese_Style_Beef_Big_Rice_Bowl_in_Hong_Kong.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Japanese_Style_Beef_Big_Rice_Bowl_in_Hong_Kong.jpg",
+    "title": "Japanese Style Beef Big Rice Bowl in Hong Kong.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  "NMAI097": {
+    "image": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Minced_Pork_and_Dried_Oyster_Congee_%28188685044%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Minced_Pork_and_Dried_Oyster_Congee_(188685044).jpg",
+    "title": "Minced Pork and Dried Oyster Congee (188685044).jpg",
+    "license": "CC BY-SA 2.0"
+  }
+});
