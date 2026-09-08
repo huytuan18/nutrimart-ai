@@ -147,7 +147,7 @@
     var currentProducts = load('nm_products',[]);
     if (force || !currentProducts.length) {
       save('nm_products',products);
-    } else if (previousVersion !== '7.2.0') {
+    } else if (previousVersion !== '9.1.0') {
       currentProducts = currentProducts.map(function (product) {
         var model = products.find(function (item) { return item.id === product.id; });
         return model ? Object.assign({},model,product,{image:model.image}) : product;
@@ -155,7 +155,7 @@
       save('nm_products',currentProducts);
     }
     if (force || !localStorage.getItem('nm_orders')) save('nm_orders',buildDemoOrders(products));
-    else if (previousVersion !== '7.2.0') {
+    else if (previousVersion !== '9.1.0') {
       var productById = {};
       products.forEach(function (product) { productById[product.id] = product; });
       var migratedOrders = load('nm_orders',[]).map(function (order) {
@@ -180,7 +180,7 @@
     ]);
     if (force || !localStorage.getItem('nm_cashbook')) save('nm_cashbook',buildCashbook());
     if (force || !localStorage.getItem('nm_cart')) save('nm_cart',[]);
-    localStorage.setItem('nm_data_version','7.2.0');
+    localStorage.setItem('nm_data_version','9.1.0');
   }
 
   initialize(false);
