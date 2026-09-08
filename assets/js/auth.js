@@ -114,7 +114,9 @@
     if (result.error) {
       var message = String(result.error.message || '').toLocaleLowerCase('vi');
       if (message.indexOf('email not confirmed') !== -1) {
-        throw new Error('Email chưa được xác nhận. Hãy mở thư Supabase trong hộp thư đến hoặc thư rác.');
+        var unconfirmedError = new Error('Email chưa được xác nhận. Hãy nhập mã đã gửi tới email hoặc yêu cầu gửi lại mã.');
+        unconfirmedError.code = 'EMAIL_NOT_CONFIRMED';
+        throw unconfirmedError;
       }
       if (message.indexOf('invalid login credentials') !== -1) {
         throw new Error('Email hoặc mật khẩu chưa đúng. Bạn có thể dùng “Quên mật khẩu” để đặt lại.');
@@ -142,8 +144,57 @@
       }
     });
     if (result.error) throw new Error(result.error.message || 'Không thể tạo tài khoản.');
+    if (result.data.user && Array.isArray(result.data.user.identities) && result.data.user.identities.length === 0) {
+      throw new Error('Email này đã có tài khoản. Hãy đăng nhập hoặc dùng “Quên mật khẩu”.');
+    }
     if (!result.data.session) return {needsConfirmation:true,email:email};
     return fetchCurrentProfile();
+  }
+
+  async function verifySignupOtp(email, token) {
+    await ready;
+    var normalizedEmail = String(email || '').trim().toLocaleLowerCase('vi');
+    var normalizedToken = String(token || '').replace(/\D/g,'');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      throw new Error('Địa chỉ email xác nhận không hợp lệ.');
+    }
+    if (!/^\d{6}$/.test(normalizedToken)) {
+      throw new Error('Mã xác nhận phải gồm đúng 6 chữ số.');
+    }
+    var result = await client.auth.verifyOtp({
+      email:normalizedEmail,
+      token:normalizedToken,
+      type:'email'
+    });
+    if (result.error) {
+      var message = String(result.error.message || '').toLocaleLowerCase('vi');
+      if (message.indexOf('expired') !== -1 || message.indexOf('invalid') !== -1 || message.indexOf('token') !== -1) {
+        throw new Error('Mã xác nhận không đúng hoặc đã hết hạn. Hãy kiểm tra lại hoặc gửi mã mới.');
+      }
+      throw new Error(result.error.message || 'Không thể xác nhận email lúc này.');
+    }
+    return fetchCurrentProfile();
+  }
+
+  async function resendSignupOtp(email) {
+    await ready;
+    var normalizedEmail = String(email || '').trim().toLocaleLowerCase('vi');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      throw new Error('Địa chỉ email xác nhận không hợp lệ.');
+    }
+    var result = await client.auth.resend({
+      type:'signup',
+      email:normalizedEmail,
+      options:{emailRedirectTo:rootUrl('auth.html?confirmed=1')}
+    });
+    if (result.error) {
+      var message = String(result.error.message || '').toLocaleLowerCase('vi');
+      if (message.indexOf('rate') !== -1 || message.indexOf('seconds') !== -1) {
+        throw new Error('Bạn vừa yêu cầu gửi mã. Hãy chờ một chút rồi thử lại.');
+      }
+      throw new Error(result.error.message || 'Không thể gửi lại mã xác nhận.');
+    }
+    return true;
   }
 
   async function resetPassword(email) {
@@ -297,6 +348,8 @@
     isConfigured:configured,
     login:login,
     register:register,
+    verifySignupOtp:verifySignupOtp,
+    resendSignupOtp:resendSignupOtp,
     resetPassword:resetPassword,
     updatePassword:updatePassword,
     logout:logout,
