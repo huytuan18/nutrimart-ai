@@ -5,6 +5,7 @@
   var cachedUser = null;
   var cachedProfiles = [];
   var config = window.NM_SUPABASE || {};
+  var publicPaymentSettings = window.NM_PUBLIC_PAYMENT_SETTINGS || null;
 
   function configured() {
     return /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(String(config.url || '')) &&
@@ -213,7 +214,10 @@
   async function getPaymentSettings() {
     await ready;
     var response = await client.from('store_payment_settings').select('*').eq('id','default').single();
-    if (response.error) throw new Error('Chưa tải được cấu hình thanh toán: ' + response.error.message);
+    if (response.error) {
+      if (publicPaymentSettings) return Object.assign({}, publicPaymentSettings);
+      throw new Error('Chưa tải được cấu hình thanh toán: ' + response.error.message);
+    }
     return cleanPaymentSettings(response.data);
   }
 
