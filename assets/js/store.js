@@ -7,7 +7,7 @@
   var activeCategory = 'all';
   var toastTimer = null;
   var countdownTimer = null;
-  var paymentSettings = {
+  var paymentSettings = Object.assign({
     enabled: false,
     bankCode: '',
     bankName: '',
@@ -15,7 +15,7 @@
     accountName: '',
     shippingFee: 30000,
     freeShippingThreshold: 499000
-  };
+  }, window.NM_PUBLIC_PAYMENT_SETTINGS || {});
 
   var productGrid = document.getElementById('product-grid');
   var productEmpty = document.getElementById('product-empty');
@@ -238,7 +238,7 @@
       var remoteSettings = await NMAuth.getPaymentSettings();
       if (remoteSettings) paymentSettings = remoteSettings;
     } catch (error) {
-      paymentSettings.enabled = false;
+      /* Giữ cấu hình công khai dự phòng nếu Supabase tạm thời không sẵn sàng. */
     }
     updatePaymentOption();
     renderCart();
