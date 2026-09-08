@@ -187,5 +187,53 @@ drop function if exists public.nm_is_admin();
 drop function if exists public.handle_new_nutrimart_user();
 drop function if exists public.set_nutrimart_profile_updated_at();
 
+-- Cấu hình thanh toán công khai cho trang bán hàng.
+-- Chỉ admin được cập nhật; khách chỉ đọc thông tin cần thiết để tạo VietQR.
+create table if not exists public.store_payment_settings (
+  id text primary key default 'default' check (id = 'default'),
+  enabled boolean not null default false,
+  bank_code text not null default '',
+  bank_name text not null default '',
+  account_number text not null default '',
+  account_name text not null default '',
+  shipping_fee bigint not null default 30000 check (shipping_fee >= 0),
+  free_shipping_threshold bigint not null default 499000 check (free_shipping_threshold >= 0),
+  updated_at timestamptz not null default now(),
+  constraint store_payment_bank_code_length check (char_length(bank_code) <= 30),
+  constraint store_payment_bank_name_length check (char_length(bank_name) <= 100),
+  constraint store_payment_account_number_format check (account_number = '' or account_number ~ '^[0-9]{5,24}$'),
+  constraint store_payment_account_name_length check (char_length(account_name) <= 120)
+);
+
+insert into public.store_payment_settings(id)
+values ('default')
+on conflict(id) do nothing;
+
+drop trigger if exists store_payment_settings_set_updated_at on public.store_payment_settings;
+create trigger store_payment_settings_set_updated_at
+  before update on public.store_payment_settings
+  for each row execute procedure private.set_nutrimart_profile_updated_at();
+
+alter table public.store_payment_settings enable row level security;
+
+drop policy if exists "payment_settings_public_read" on public.store_payment_settings;
+create policy "payment_settings_public_read"
+on public.store_payment_settings
+for select
+to anon, authenticated
+using (id = 'default');
+
+drop policy if exists "payment_settings_admin_update" on public.store_payment_settings;
+create policy "payment_settings_admin_update"
+on public.store_payment_settings
+for update
+to authenticated
+using ((select private.nm_is_admin()))
+with check (id = 'default' and (select private.nm_is_admin()));
+
+revoke all on table public.store_payment_settings from anon, authenticated;
+grant select on table public.store_payment_settings to anon, authenticated;
+grant update on table public.store_payment_settings to authenticated;
+
 -- SAU KHI đăng ký tài khoản đầu tiên và xác nhận email, bỏ dấu -- rồi thay email:
 -- update public.profiles set role = 'admin' where email = 'email-cua-ban@example.com';

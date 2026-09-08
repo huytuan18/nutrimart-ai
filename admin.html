@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/admin.css?v=7.2">
+  <link rel="stylesheet" href="assets/css/admin.css?v=8.0">
   <style>.auth-checking body{visibility:hidden}</style>
 </head>
 <body>
@@ -123,7 +123,30 @@
         </section>
 
         <section class="admin-page" data-admin-page="settings">
-          <div class="settings-grid"><article class="panel settings-card"><div class="panel-head"><div><h2>Thông tin cửa hàng</h2><p>Thông tin hiển thị trong hệ thống</p></div></div><form id="store-settings"><label><span>Tên cửa hàng</span><input value="NutriMart AI"></label><label><span>Chi nhánh</span><input value="Chi nhánh trung tâm"></label><label><span>Điện thoại</span><input value="DEMO-HOTLINE"></label><label><span>Email</span><input value="hello@nutrimart.example.invalid"></label><label><span>Địa chỉ</span><input value="Địa chỉ cửa hàng minh họa"></label><button class="button primary" type="submit">Lưu thay đổi</button></form></article><article class="panel settings-card"><div class="panel-head"><div><h2>Dữ liệu trình diễn</h2><p>Lưu riêng trong trình duyệt hiện tại</p></div><span class="status green">Đang hoạt động</span></div><div class="data-status"><div><span>Hàng hóa</span><strong id="setting-products">0</strong></div><div><span>Hóa đơn</span><strong id="setting-orders">0</strong></div><div><span>Khách hàng</span><strong id="setting-customers">0</strong></div></div><button class="button danger" id="reset-data" type="button">↻ Khôi phục dữ liệu mẫu</button><p class="security-note"><b>Bảo mật hai lớp dữ liệu</b>Tài khoản và vai trò được lưu trên Supabase với RLS. Hàng hóa, hóa đơn và sổ quỹ hiện vẫn là dữ liệu đồ án lưu trong trình duyệt.</p></article></div>
+          <div class="settings-grid">
+            <article class="panel settings-card">
+              <div class="panel-head"><div><h2>Thông tin cửa hàng</h2><p>Thông tin hiển thị trong hệ thống</p></div></div>
+              <form id="store-settings"><label><span>Tên cửa hàng</span><input value="NutriMart AI"></label><label><span>Chi nhánh</span><input value="Chi nhánh trung tâm"></label><label><span>Điện thoại</span><input value="DEMO-HOTLINE"></label><label><span>Email</span><input value="hello@nutrimart.example.invalid"></label><label><span>Địa chỉ</span><input value="Địa chỉ cửa hàng minh họa"></label><button class="button primary" type="submit">Lưu thay đổi</button></form>
+            </article>
+            <article class="panel settings-card">
+              <div class="panel-head"><div><h2>Dữ liệu trình diễn</h2><p>Lưu riêng trong trình duyệt hiện tại</p></div><span class="status green">Đang hoạt động</span></div>
+              <div class="data-status"><div><span>Hàng hóa</span><strong id="setting-products">0</strong></div><div><span>Hóa đơn</span><strong id="setting-orders">0</strong></div><div><span>Khách hàng</span><strong id="setting-customers">0</strong></div></div><button class="button danger" id="reset-data" type="button">↻ Khôi phục dữ liệu mẫu</button><p class="security-note"><b>Bảo mật hai lớp dữ liệu</b>Tài khoản và vai trò được lưu trên Supabase với RLS. Hàng hóa, hóa đơn và sổ quỹ hiện vẫn là dữ liệu đồ án lưu trong trình duyệt.</p>
+            </article>
+            <article class="panel settings-card payment-settings-card">
+              <div class="panel-head"><div><h2>Thanh toán online &amp; VietQR</h2><p>Tạo mã QR đúng số tiền và nội dung cho từng đơn website</p></div><span class="status gray" id="payment-settings-status">Đang tải</span></div>
+              <form id="payment-settings">
+                <label class="settings-toggle wide"><input name="enabled" type="checkbox"><span><b>Bật chuyển khoản VietQR</b><small>Khách vẫn có thể chọn thanh toán khi nhận hàng.</small></span></label>
+                <label><span>Mã ngân hàng VietQR</span><input name="bankCode" maxlength="30" placeholder="Ví dụ: 970422" autocomplete="off"><small>Dùng mã BIN hoặc mã ngân hàng được VietQR hỗ trợ.</small></label>
+                <label><span>Tên ngân hàng hiển thị</span><input name="bankName" maxlength="100" placeholder="Ví dụ: MB Bank" autocomplete="organization"></label>
+                <label><span>Số tài khoản</span><input name="accountNumber" inputmode="numeric" maxlength="24" placeholder="Chỉ nhập chữ số" autocomplete="off"></label>
+                <label><span>Tên người nhận</span><input name="accountName" maxlength="120" placeholder="NGUYEN VAN A" autocomplete="off"></label>
+                <label><span>Phí giao hàng</span><input name="shippingFee" type="number" min="0" step="1000" value="30000"></label>
+                <label><span>Miễn phí từ</span><input name="freeShippingThreshold" type="number" min="0" step="1000" value="499000"></label>
+                <p class="payment-public-note wide"><b>Lưu ý:</b> tên ngân hàng, số tài khoản và người nhận sẽ được công khai trên trang thanh toán để khách chuyển khoản. Không nhập mật khẩu, mã OTP hoặc khóa bí mật.</p>
+                <div class="payment-settings-actions wide"><button class="button primary" type="submit">Lưu cấu hình thanh toán</button><a href="index.html#products" target="_blank" rel="noopener">Mở trang bán hàng ↗</a></div>
+              </form>
+            </article>
+          </div>
         </section>
       </div>
     </main>
@@ -139,10 +162,10 @@
   <dialog class="admin-modal order-modal" id="order-modal"><button class="modal-close" data-close-modal type="button">×</button><div id="order-detail"></div></dialog>
   <div class="admin-toast" id="admin-toast" role="status"></div>
 
-  <script src="assets/js/supabase-config.js?v=7.2"></script>
-  <script src="assets/js/auth.js?v=7.2"></script>
+  <script src="assets/js/supabase-config.js?v=8.0"></script>
+  <script src="assets/js/auth.js?v=8.0"></script>
   <script src="assets/js/product-images.js?v=7.2"></script>
   <script src="assets/js/data.js?v=7.2"></script>
-  <script src="assets/js/admin.js?v=7.2"></script>
+  <script src="assets/js/admin.js?v=8.0"></script>
 </body>
 </html>

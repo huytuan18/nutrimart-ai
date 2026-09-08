@@ -53,6 +53,20 @@
     };
   }
 
+  function cleanPaymentSettings(row) {
+    if (!row) return null;
+    return {
+      enabled:row.enabled === true,
+      bankCode:String(row.bank_code || '').trim(),
+      bankName:String(row.bank_name || '').trim(),
+      accountNumber:String(row.account_number || '').trim(),
+      accountName:String(row.account_name || '').trim(),
+      shippingFee:Number(row.shipping_fee || 0),
+      freeShippingThreshold:Number(row.free_shipping_threshold || 0),
+      updatedAt:row.updated_at || ''
+    };
+  }
+
   async function fetchCurrentProfile() {
     var response = await client.auth.getUser();
     if (response.error || !response.data.user) {
@@ -96,7 +110,16 @@
   async function login(email, password) {
     await ready;
     var result = await client.auth.signInWithPassword({email:String(email || '').trim(), password:String(password || '')});
-    if (result.error) throw new Error('Email hoặc mật khẩu chưa đúng.');
+    if (result.error) {
+      var message = String(result.error.message || '').toLocaleLowerCase('vi');
+      if (message.indexOf('email not confirmed') !== -1) {
+        throw new Error('Email chưa được xác nhận. Hãy mở thư Supabase trong hộp thư đến hoặc thư rác.');
+      }
+      if (message.indexOf('invalid login credentials') !== -1) {
+        throw new Error('Email hoặc mật khẩu chưa đúng. Bạn có thể dùng “Quên mật khẩu” để đặt lại.');
+      }
+      throw new Error(result.error.message || 'Không thể đăng nhập lúc này.');
+    }
     return fetchCurrentProfile();
   }
 
@@ -187,6 +210,39 @@
     return cachedUser;
   }
 
+  async function getPaymentSettings() {
+    await ready;
+    var response = await client.from('store_payment_settings').select('*').eq('id','default').single();
+    if (response.error) throw new Error('Chưa tải được cấu hình thanh toán: ' + response.error.message);
+    return cleanPaymentSettings(response.data);
+  }
+
+  async function updatePaymentSettings(values) {
+    await ready;
+    if (!cachedUser || cachedUser.role !== 'admin') {
+      throw new Error('Chỉ quản trị viên được thay đổi cấu hình thanh toán.');
+    }
+    var payload = {
+      enabled:values.enabled === true,
+      bank_code:String(values.bankCode || '').trim().toUpperCase(),
+      bank_name:String(values.bankName || '').trim(),
+      account_number:String(values.accountNumber || '').replace(/\s+/g,''),
+      account_name:String(values.accountName || '').trim().toUpperCase(),
+      shipping_fee:Math.max(0, Math.round(Number(values.shippingFee || 0))),
+      free_shipping_threshold:Math.max(0, Math.round(Number(values.freeShippingThreshold || 0))),
+      updated_at:new Date().toISOString()
+    };
+    if (payload.enabled && (!payload.bank_code || !payload.account_number || !payload.account_name)) {
+      throw new Error('Hãy nhập đủ ngân hàng, số tài khoản và tên người nhận trước khi bật VietQR.');
+    }
+    if (payload.account_number && !/^[0-9]{5,24}$/.test(payload.account_number)) {
+      throw new Error('Số tài khoản chỉ gồm 5–24 chữ số.');
+    }
+    var response = await client.from('store_payment_settings').update(payload).eq('id','default').select('*').single();
+    if (response.error) throw new Error(response.error.message);
+    return cleanPaymentSettings(response.data);
+  }
+
   function rootUrl(path) {
     var currentPath = location.pathname;
     var marker = '/nutrimart-ai/';
@@ -203,11 +259,11 @@
 
   function destination(user, requested) {
     var key = String(requested || '').toLowerCase();
-    if (key === 'man' && user.role === 'admin') return rootUrl('man/?v=7.2#/DashBoard');
-    if (key === 'sale' && (user.role === 'admin' || user.role === 'staff')) return rootUrl('sale/?v=7.2#/');
+    if (key === 'man' && user.role === 'admin') return rootUrl('man/?v=8.0#/DashBoard');
+    if (key === 'sale' && (user.role === 'admin' || user.role === 'staff')) return rootUrl('sale/?v=8.0#/');
     if (key === 'account' || key === 'checkout') return rootUrl(key === 'checkout' ? 'index.html?resumeCheckout=1#products' : 'account.html');
-    if (user.role === 'admin') return rootUrl('man/?v=7.2#/DashBoard');
-    if (user.role === 'staff') return rootUrl('sale/?v=7.2#/');
+    if (user.role === 'admin') return rootUrl('man/?v=8.0#/DashBoard');
+    if (user.role === 'staff') return rootUrl('sale/?v=8.0#/');
     return rootUrl('account.html');
   }
 
@@ -244,6 +300,8 @@
     getUsers:getUsers,
     updateAccount:updateAccount,
     updateProfile:updateProfile,
+    getPaymentSettings:getPaymentSettings,
+    updatePaymentSettings:updatePaymentSettings,
     requireRole:requireRole,
     loginUrl:loginUrl,
     destination:destination,

@@ -784,6 +784,58 @@
     showToast('Đã lưu thông tin cửa hàng.', 'success');
   });
 
+  function setPaymentSettingsStatus(text, style) {
+    var status = document.getElementById('payment-settings-status');
+    status.textContent = text;
+    status.className = 'status ' + (style || 'gray');
+  }
+
+  async function loadPaymentSettings() {
+    var form = document.getElementById('payment-settings');
+    try {
+      var settings = await NMAuth.getPaymentSettings();
+      form.elements.enabled.checked = settings.enabled;
+      form.elements.bankCode.value = settings.bankCode;
+      form.elements.bankName.value = settings.bankName;
+      form.elements.accountNumber.value = settings.accountNumber;
+      form.elements.accountName.value = settings.accountName;
+      form.elements.shippingFee.value = settings.shippingFee;
+      form.elements.freeShippingThreshold.value = settings.freeShippingThreshold;
+      setPaymentSettingsStatus(settings.enabled ? 'Đang bật' : 'Đang tắt', settings.enabled ? 'green' : 'gray');
+    } catch (error) {
+      setPaymentSettingsStatus('Chưa cài đặt', 'amber');
+      showToast('Cần chạy bản schema Supabase mới để bật VietQR.', 'error');
+    }
+  }
+
+  document.getElementById('payment-settings').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    var form = event.currentTarget;
+    var button = form.querySelector('[type="submit"]');
+    button.disabled = true;
+    button.textContent = 'Đang lưu...';
+    setPaymentSettingsStatus('Đang lưu', 'blue');
+    try {
+      var settings = await NMAuth.updatePaymentSettings({
+        enabled:form.elements.enabled.checked,
+        bankCode:form.elements.bankCode.value,
+        bankName:form.elements.bankName.value,
+        accountNumber:form.elements.accountNumber.value,
+        accountName:form.elements.accountName.value,
+        shippingFee:form.elements.shippingFee.value,
+        freeShippingThreshold:form.elements.freeShippingThreshold.value
+      });
+      setPaymentSettingsStatus(settings.enabled ? 'Đang bật' : 'Đang tắt', settings.enabled ? 'green' : 'gray');
+      showToast('Đã lưu cấu hình thanh toán online.', 'success');
+    } catch (error) {
+      setPaymentSettingsStatus('Lưu thất bại', 'red');
+      showToast(error.message || 'Không thể lưu cấu hình thanh toán.', 'error');
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Lưu cấu hình thanh toán';
+    }
+  });
+
   document.getElementById('reset-data').addEventListener('click', function () {
     if (confirm('Khôi phục dữ liệu mẫu? Các thay đổi trên trình duyệt này sẽ bị xóa.')) {
       NM.reset();
@@ -835,5 +887,6 @@
 
   setupCurrentUser();
   loadState();
+  loadPaymentSettings();
   navigate((location.hash || '#dashboard').slice(1));
 }());
