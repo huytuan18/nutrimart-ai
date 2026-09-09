@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=8.2">
-  <link rel="stylesheet" href="assets/css/store-v8.css?v=8.2">
+  <link rel="stylesheet" href="assets/css/style.css?v=10.0">
+  <link rel="stylesheet" href="assets/css/store-v8.css?v=10.0">
+  <link rel="stylesheet" href="assets/css/v10.css?v=10.0">
 </head>
 <body>
   <div class="announcement">
@@ -52,6 +53,7 @@
           <a href="#nutrition-ai">Dinh dưỡng AI</a>
           <a href="#knowledge">Góc sống khỏe</a>
           <a href="#contact">Liên hệ</a>
+          <a class="mobile-nav-auth" href="auth.html">Đăng nhập / Đăng ký</a>
         </nav>
         <span class="delivery-note">✓ Đổi trả trong 24 giờ</span>
       </div>
@@ -155,7 +157,7 @@
     <section class="newsletter" id="contact"><div class="container newsletter-inner"><div><span>BẢN TIN NUTRIMART</span><h2>Mỗi tuần một mẹo sống khỏe</h2><p>Nhận ưu đãi mới và kiến thức dinh dưỡng hữu ích.</p></div><form id="newsletter-form"><input type="email" placeholder="Email của bạn" aria-label="Email nhận bản tin" required><button type="submit">Đăng ký →</button></form></div></section>
   </main>
 
-  <footer class="site-footer"><div class="container footer-grid"><div><a class="brand footer-brand" href="#top"><span class="brand-icon">N</span><span><strong>NutriMart</strong><small>AI NUTRITION MARKET</small></span></a><p>Siêu thị dinh dưỡng thông minh giúp mỗi lựa chọn ăn uống trở nên rõ ràng hơn.</p></div><div><h4>Mua sắm</h4><a href="#products">Tất cả sản phẩm</a><a href="#categories">Danh mục thực phẩm</a><a href="#nutrition-ai">Dinh dưỡng AI</a></div><div><h4>Hỗ trợ</h4><a href="account.html">Tài khoản của tôi</a><a href="#knowledge">Góc sống khỏe</a><a href="auth.html?redirect=man">Khu vực quản lý</a><a href="auth.html?redirect=sale">Bán hàng tại quầy</a></div><div><h4>Liên hệ demo</h4><p>📍 Địa chỉ cửa hàng minh họa</p><p>☎ DEMO-HOTLINE</p><p>✉ hello@nutrimart.example.invalid</p><small>Ảnh thực phẩm thực tế theo từng sản phẩm; <a href="IMAGE-CREDITS.md">xem nguồn ảnh</a>.</small></div></div><div class="container footer-bottom"><span>© 2026 NutriMart AI. Đồ án website bán hàng.</span><span>Ăn đúng chất · Sống đúng nhịp</span></div></footer>
+  <footer class="site-footer"><div class="container footer-grid"><div><a class="brand footer-brand" href="#top"><span class="brand-icon">N</span><span><strong>NutriMart</strong><small>AI NUTRITION MARKET</small></span></a><p>Siêu thị dinh dưỡng thông minh giúp mỗi lựa chọn ăn uống trở nên rõ ràng hơn.</p></div><div><h4>Mua sắm</h4><a href="#products">Tất cả sản phẩm</a><a href="#categories">Danh mục thực phẩm</a><a href="#nutrition-ai">Dinh dưỡng AI</a></div><div><h4>Hỗ trợ</h4><a href="account.html">Tài khoản của tôi</a><a href="#knowledge">Góc sống khỏe</a><a href="auth.html?redirect=man">Khu vực quản lý</a><a href="auth.html?redirect=sale">Bán hàng tại quầy</a></div><div><h4>Liên hệ demo</h4><p>📍 Địa chỉ cửa hàng minh họa</p><p>☎ DEMO-HOTLINE</p><p>✉ hello@nutrimart.example.invalid</p><small>Ảnh sản phẩm theo đúng từng mặt hàng; <a href="IMAGE-CREDITS.md">xem nguồn ảnh</a>.</small></div></div><div class="container footer-bottom"><span>© 2026 NutriMart AI. Đồ án website bán hàng.</span><span>Ăn đúng chất · Sống đúng nhịp</span></div></footer>
 
   <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
     <div class="drawer-head"><div><span class="drawer-eyebrow">GIỎ HÀNG CỦA BẠN</span><h2>Giỏ hàng <small id="drawer-count">0 sản phẩm</small></h2></div><button id="close-cart" type="button" aria-label="Đóng giỏ hàng">×</button></div>
@@ -201,10 +203,10 @@
   <div class="mobile-cart-bar" id="mobile-cart-bar" hidden><button type="button" data-open-cart><span><b id="mobile-cart-count">0</b> sản phẩm</span><strong id="mobile-cart-total">0₫</strong><i>Xem giỏ →</i></button></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/js/supabase-config.js?v=8.2"></script>
-  <script src="assets/js/auth.js?v=8.2"></script>
-  <script src="assets/js/product-images.js?v=9.1"></script>
-  <script src="assets/js/data.js?v=9.1"></script>
-  <script src="assets/js/store.js?v=8.2"></script>
+  <script src="assets/js/supabase-config.js?v=10.0"></script>
+  <script src="assets/js/auth.js?v=10.0"></script>
+  <script src="assets/js/product-images.js?v=10.0"></script>
+  <script src="assets/js/data.js?v=10.0"></script>
+  <script src="assets/js/store.js?v=10.0"></script>
 </body>
 </html>

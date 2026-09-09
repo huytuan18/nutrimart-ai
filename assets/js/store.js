@@ -133,7 +133,8 @@
     var shown = filtered.slice(0, visibleCount);
     productGrid.innerHTML = shown.map(function (product, index) {
       var badge = product.healthy ? 'LÀNH MẠNH' : (index < 3 ? 'NỔI BẬT' : '');
-      return '<article class="product-card"><div class="product-image" style="--product-bg:' +
+      return '<article class="product-card" data-category="' + NM.escape(product.category) +
+        '" data-product="' + NM.escape(product.sku) + '"><div class="product-image" style="--product-bg:' +
         product.color + '"><img src="' + NM.escape(product.image || '') + '" alt="' +
         NM.escape(product.name) + '" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">' +
         '<span class="product-image-fallback" hidden>' + product.emoji + '</span>' +

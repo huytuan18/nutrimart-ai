@@ -1,0 +1,250 @@
+/* NutriMart AI v10.0 — chuẩn hóa ảnh sản phẩm và cân đối đa giao diện. */
+
+/* Cửa hàng online */
+.mobile-nav-auth {
+  display: none;
+}
+
+.product-grid {
+  align-items: stretch;
+}
+
+.product-card {
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  flex-direction: column;
+}
+
+.product-image {
+  height: auto;
+  aspect-ratio: 4 / 3;
+  padding: 10px;
+  border-bottom: 1px solid #e5ece8;
+  background: #f4f8f5;
+}
+
+.product-image > img {
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  object-fit: contain;
+  object-position: center;
+  background: #f4f8f5;
+}
+
+.product-image::after {
+  display: none;
+}
+
+.product-card:hover .product-image > img {
+  transform: scale(1.025);
+}
+
+.product-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.product-body h3 {
+  height: auto;
+  min-height: 44px;
+  overflow: visible;
+}
+
+.product-stock {
+  min-height: 17px;
+}
+
+.nutrition-chips {
+  min-height: 31px;
+  align-content: flex-start;
+}
+
+.product-foot {
+  align-items: flex-end;
+  margin-top: auto;
+  padding-top: 3px;
+}
+
+.price strong,
+.price small {
+  white-space: nowrap;
+}
+
+.cart-line-icon img {
+  padding: 4px;
+  object-fit: contain;
+  background: #f4f8f5;
+}
+
+/* Trang quản lý */
+.admin-content {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+}
+
+.stats-grid > *,
+.staff-grid > *,
+.channel-grid > *,
+.settings-grid > * {
+  height: 100%;
+}
+
+.mini-icon img,
+.product-cell-icon img,
+.order-detail-thumb img {
+  padding: 3px;
+  object-fit: contain;
+  object-position: center;
+  background: #f4f8f5;
+}
+
+/* Màn hình bán hàng */
+.result-icon img,
+.line-product-photo img {
+  padding: 3px;
+  object-fit: contain;
+  object-position: center;
+  background: #f4f8f5;
+}
+
+/* Tài khoản khách hàng */
+.account-stats article {
+  height: 100%;
+}
+
+.order-products img {
+  padding: 3px;
+  object-fit: contain;
+  object-position: center;
+  background: #f4f8f5;
+}
+
+/* Đăng nhập và xác thực OTP */
+.auth-card {
+  width: 100%;
+  max-width: 470px;
+}
+
+@media (max-width: 760px) {
+  .page-strip {
+    flex-wrap: wrap;
+  }
+
+  .page-strip-actions {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .global-search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .module-toolbar,
+  .module-toolbar > div:last-child {
+    width: 100%;
+  }
+
+  .module-toolbar > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .pos-search {
+    min-width: 0;
+  }
+
+  .pos-app .sale-table-head,
+  .pos-app .cart-line {
+    grid-template-columns: 32px minmax(0, 1fr) 84px 88px 26px;
+  }
+
+  .pos-app .line-product {
+    grid-template-columns: 32px minmax(0, 1fr);
+  }
+
+  .pos-app .line-product > span {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pos-app .order-bottom-actions {
+    position: sticky;
+    bottom: 52px;
+    z-index: 5;
+    background: #fff;
+  }
+
+  .account-panel > header {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  .mobile-nav-auth {
+    display: block;
+    margin-top: 4px;
+    border-top: 1px solid #e8efeb;
+    color: var(--green) !important;
+    font-weight: 800 !important;
+  }
+
+  .product-image {
+    height: auto;
+    aspect-ratio: 1 / 1;
+    padding: 7px;
+  }
+
+  .product-image > img {
+    padding: 2px;
+  }
+
+  .product-body h3 {
+    min-height: 38px;
+    line-height: 1.45;
+  }
+
+  .product-stock {
+    min-height: 15px;
+  }
+
+  .nutrition-chips {
+    min-height: 27px;
+    margin-bottom: 8px;
+  }
+
+  .product-foot {
+    gap: 5px;
+  }
+
+  .price strong {
+    font-size: 13px;
+  }
+
+  .account-header {
+    height: 62px;
+  }
+
+  .account-header nav {
+    gap: 6px;
+  }
+
+  .order-card {
+    gap: 10px;
+  }
+
+  .otp-code {
+    gap: 5px;
+  }
+
+  .otp-code input {
+    height: 48px;
+    padding: 0;
+    font-size: 19px;
+  }
+}
