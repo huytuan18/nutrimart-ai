@@ -1,4 +1,86 @@
-/* NutriMart AI v10.0 — chuẩn hóa ảnh sản phẩm và cân đối đa giao diện. */
+/* NutriMart AI v10.1 — ảnh sản phẩm và bố cục thích ứng. */
+
+/* Reset legacy rules shared with the first storefront. */
+.site-header .navigation-inner { gap: 24px; }
+.site-header .main-nav { margin-left: 0; min-width: 0; }
+.site-header .main-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0;
+  white-space: nowrap;
+}
+.site-header .main-nav a.active::after { bottom: 0; }
+.site-header .main-nav .mobile-nav-auth { display: none; }
+.site-header .delivery-note { flex-shrink: 0; white-space: nowrap; }
+.site-header .cart-button { width: auto; flex-shrink: 0; }
+.site-header .cart-button > span {
+  position: static;
+  display: inline;
+  min-width: 0;
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.site-header .cart-button > span[aria-hidden] { font-size: 19px; }
+.product-card .add-cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 44px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.product-card .product-foot { align-items: center; gap: 10px; }
+.product-card .product-body h3 { min-height: 3em; margin-bottom: 6px; line-height: 1.5; }
+.product-card .product-stock { margin-top: 0; }
+.product-card .nutrition-chips { flex-wrap: wrap; gap: 5px; }
+.product-card .price { min-width: 0; }
+.site-header ~ main section[id] { scroll-margin-top: 150px; }
+
+@media (max-width: 1020px) and (min-width: 861px) {
+  .site-header .main-nav { gap: 20px; }
+  .site-header .delivery-note { font-size: 10px; }
+  .site-header .header-search { min-width: 180px; margin-left: 0; }
+  .site-header .nav-wrap { gap: 16px; }
+}
+
+@media (max-width: 860px) {
+  .site-header .main-nav {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+    background: #fff;
+    max-height: calc(100dvh - 90px);
+    overflow-y: auto;
+  }
+  .site-header .main-nav.open { display: flex; }
+  .site-header .main-nav a { padding: 10px 14px; min-height: 44px; }
+  .site-header .main-nav a.active::after { display: none; }
+  .site-header .main-nav a.active { background: #eaf8f1; border-radius: 8px; }
+  .site-header .cart-button { width: 44px; }
+  .site-header .cart-button .cart-label { display: none; }
+  .site-header ~ main section[id] { scroll-margin-top: 90px; }
+}
+
+@media (max-width: 600px) {
+  .site-header .main-nav .mobile-nav-auth { display: inline-flex; }
+  .product-card .product-foot { flex-wrap: wrap; gap: 8px; }
+  .product-card .add-cart { min-width: 44px; width: 44px; height: 44px; padding: 0; }
+  .cart-drawer { width: min(440px, 100%); max-width: 100%; }
+  .auth-card { padding: 26px 20px; }
+  .form-options { flex-wrap: wrap; gap: 12px; }
+  .account-panel { min-width: 0; }
+}
 
 /* Cửa hàng online */
 .mobile-nav-auth {
