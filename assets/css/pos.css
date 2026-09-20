@@ -49,7 +49,11 @@ a { color: inherit; text-decoration: none; }
 .product-empty { padding: 40px; color: #87949d; text-align: center; }
 
 .invoice-tabs { min-width: 0; display: flex; align-items: stretch; }
+.invoice-tabs > #invoice-tab-list { display: flex; min-width: 0; overflow-x: auto; }
 .invoice-tab { min-width: 145px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 16px; color: #fff; background: var(--blue-dark); border: 0; border-bottom: 3px solid #fff; cursor: pointer; }
+.invoice-tab > span { overflow: hidden; max-width: 108px; text-overflow: ellipsis; white-space: nowrap; }
+.invoice-tab > i { padding: 0 3px; color: #b9d4e7; font-size: 17px; font-style: normal; line-height: 1; }
+.invoice-tab > i:hover { color: #fff; }
 .invoice-tab span { font-weight: 500; }
 .invoice-tab b { min-width: 18px; height: 18px; padding: 0 4px; color: var(--blue); background: #fff; border-radius: 9px; font-size: 10px; line-height: 18px; }
 .invoice-add, .invoice-more { width: 42px; color: #fff; background: transparent; border: 0; font-size: 20px; cursor: pointer; }

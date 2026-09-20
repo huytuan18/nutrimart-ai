@@ -54,22 +54,39 @@
   function saveProducts() {
     NM.setProducts(products);
     renderAll();
+    window.dispatchEvent(new CustomEvent('nm-data-updated', { detail: { type: 'products' } }));
   }
 
   function saveOrders() {
     NM.setOrders(orders);
     renderAll();
+    window.dispatchEvent(new CustomEvent('nm-data-updated', { detail: { type: 'orders' } }));
   }
 
   function saveCustomers() {
     NM.setCustomers(customers);
     renderAll();
+    window.dispatchEvent(new CustomEvent('nm-data-updated', { detail: { type: 'customers' } }));
   }
 
   function saveCashbook() {
     if (NM.setCashbook) NM.setCashbook(cashbook);
     renderAll();
+    window.dispatchEvent(new CustomEvent('nm-data-updated', { detail: { type: 'cashbook' } }));
   }
+
+  function refreshSharedData() {
+    products = NM.getProducts();
+    orders = NM.getOrders();
+    customers = NM.getCustomers();
+    cashbook = NM.getCashbook ? NM.getCashbook() : [];
+    renderAll();
+  }
+
+  window.addEventListener('storage', function (event) {
+    if (['nm_products', 'nm_orders', 'nm_customers', 'nm_cashbook'].indexOf(event.key) !== -1) refreshSharedData();
+  });
+  window.addEventListener('nm-data-updated', refreshSharedData);
 
   function dateKey(value) {
     var date = new Date(value);

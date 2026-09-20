@@ -8,6 +8,9 @@
   var orders = NM.getOrders();
   var customers = NM.getCustomers();
   var cart = loadCart();
+  var invoices = loadInvoices();
+  var currentInvoiceId = invoices[0].id;
+  cart = JSON.parse(JSON.stringify(invoices[0].cart || cart || {}));
   var history = [];
   var activeCategory = 'all';
   var saleMode = localStorage.getItem('nm_pos_mode') || 'delivery';
@@ -45,6 +48,116 @@
     }
   }
 
+  function loadInvoices() {
+      try {
+        var saved = JSON.parse(localStorage.getItem('nm_pos_invoices'));
+        if (Array.isArray(saved) && saved.length) return saved;
+      } catch (error) {}
+      return [{id:'pos-' + Date.now(), name:'Hóa đơn 1', cart:loadCart(), discount:0, saleMode:localStorage.getItem('nm_pos_mode') || 'delivery', shippingTab:'gateway', fields:{}}];
+    }
+
+  function currentInvoice() {
+      return invoices.find(function (invoice) { return invoice.id === currentInvoiceId; }) || invoices[0];
+    }
+
+  function saveInvoices() {
+      localStorage.setItem('nm_pos_invoices', JSON.stringify(invoices));
+    }
+
+  function captureFields() {
+      var fields = {};
+      ['pos-customer-name','pos-customer-phone','receiver-name','receiver-phone','receiver-address','pos-order-note','delivery-note'].forEach(function (id) {
+        fields[id] = document.getElementById(id).value;
+      });
+      return fields;
+    }
+
+  function applyFields(fields) {
+      fields = fields || {};
+      ['pos-customer-name','pos-customer-phone','receiver-name','receiver-phone','receiver-address','pos-order-note','delivery-note'].forEach(function (id) {
+        document.getElementById(id).value = fields[id] || '';
+      });
+    }
+
+  function saveCurrentInvoice() {
+      var invoice = currentInvoice();
+      if (!invoice) return;
+      invoice.cart = cloneCart(cart);
+      invoice.discount = Number(discountInput.value) || 0;
+      invoice.saleMode = saleMode;
+      invoice.shippingTab = shippingTab;
+      invoice.fields = captureFields();
+      saveInvoices();
+    }
+
+  function renderInvoiceTabs() {
+      var list = document.getElementById('invoice-tab-list');
+      list.innerHTML = invoices.map(function (invoice) {
+        var quantity = Object.keys(invoice.cart || {}).reduce(function (sum, key) { return sum + Number(invoice.cart[key].quantity || 0); }, 0);
+        return '<button class="invoice-tab ' + (invoice.id === currentInvoiceId ? 'active' : '') + '" type="button" data-invoice-id="' + invoice.id + '"><span>' +
+          NM.escape(invoice.name) + '</span><b>' + quantity + '</b><i data-close-invoice="' + invoice.id + '" title="Đóng hóa đơn">×</i></button>';
+      }).join('');
+    }
+
+  function switchInvoice(id) {
+      if (id === currentInvoiceId) return;
+      saveCurrentInvoice();
+      var target = invoices.find(function (invoice) { return invoice.id === id; });
+      if (!target) return;
+      currentInvoiceId = target.id;
+      cart = cloneCart(target.cart || {});
+      saleMode = target.saleMode || 'delivery';
+      shippingTab = target.shippingTab || 'gateway';
+      history = [];
+      discountInput.value = target.discount || 0;
+      applyFields(target.fields);
+      setShippingTab(shippingTab);
+      setMode(saleMode);
+      renderInvoiceTabs();
+      renderCart();
+    }
+
+  function createInvoice() {
+      saveCurrentInvoice();
+      var number = invoices.length + 1;
+      var invoice = {id:'pos-' + Date.now(), name:'Hóa đơn ' + number, cart:{}, discount:0, saleMode:saleMode, shippingTab:'gateway', fields:{}};
+      invoices.push(invoice);
+      currentInvoiceId = invoice.id;
+      cart = {};
+      history = [];
+      discountInput.value = 0;
+      applyFields({});
+      renderInvoiceTabs();
+      renderCart();
+      productSearch.focus();
+      showToast('Đã mở ' + invoice.name + '. Các hóa đơn trước vẫn nằm trên thanh tab.');
+    }
+
+  function closeInvoice(id) {
+      if (invoices.length === 1) {
+        showToast('Cần giữ lại ít nhất một hóa đơn.');
+        return;
+      }
+      var invoice = invoices.find(function (item) { return item.id === id; });
+      if (invoice && Object.keys(invoice.cart || {}).length && !confirm('Đóng ' + invoice.name + ' và bỏ hóa đơn chưa thanh toán?')) return;
+      var index = invoices.findIndex(function (item) { return item.id === id; });
+      invoices.splice(index, 1);
+      if (id === currentInvoiceId) {
+        var next = invoices[Math.max(0, index - 1)] || invoices[0];
+        currentInvoiceId = next.id;
+        cart = cloneCart(next.cart || {});
+        discountInput.value = next.discount || 0;
+        saleMode = next.saleMode || 'delivery';
+        shippingTab = next.shippingTab || 'gateway';
+        applyFields(next.fields);
+        setShippingTab(shippingTab);
+        setMode(saleMode);
+        renderCart();
+      }
+      saveInvoices();
+      renderInvoiceTabs();
+  }
+
   function cloneCart(value) {
     return JSON.parse(JSON.stringify(value));
   }
@@ -56,6 +169,8 @@
 
   function saveCart() {
     localStorage.setItem('nm_pos_cart', JSON.stringify(cart));
+    saveCurrentInvoice();
+    renderInvoiceTabs();
   }
 
   function showToast(message) {
@@ -145,7 +260,6 @@
     var quantity = itemQuantity();
     var currentSubtotal = subtotal();
     var currentTotal = total();
-    document.getElementById('invoice-line-count').textContent = items.length;
     document.getElementById('summary-item-count').textContent = quantity + ' sản phẩm';
     document.getElementById('pos-subtotal').textContent = NM.formatMoney(currentSubtotal);
     document.getElementById('shipping-fee').textContent = NM.formatMoney(shippingFee());
@@ -415,14 +529,17 @@
   });
 
   document.querySelector('.invoice-add').addEventListener('click', function () {
-    if (cartItems().length && !confirm('Tạo hóa đơn mới và giữ hóa đơn hiện tại ở trạng thái tạm?')) return;
-    if (cartItems().length) {
-      var order = buildOrder('on-hold');
-      orders.unshift(order);
-      NM.setOrders(orders);
+    createInvoice();
+  });
+  document.getElementById('invoice-tab-list').addEventListener('click', function (event) {
+    var close = event.target.closest('[data-close-invoice]');
+    if (close) {
+      event.stopPropagation();
+      closeInvoice(close.dataset.closeInvoice);
+      return;
     }
-    clearForNewInvoice();
-    showToast('Đã mở Hóa đơn 1 mới.');
+    var tab = event.target.closest('[data-invoice-id]');
+    if (tab) switchInvoice(tab.dataset.invoiceId);
   });
 
   window.addEventListener('keydown', function (event) {
@@ -447,6 +564,17 @@
     orders = NM.getOrders();
     customers = NM.getCustomers();
     renderProducts();
+    renderCart();
+    renderInvoiceTabs();
+  });
+
+  window.addEventListener('nm-data-updated', function () {
+    products = NM.getProducts();
+    orders = NM.getOrders();
+    customers = NM.getCustomers();
+    renderProducts();
+    renderCart();
+    renderInvoiceTabs();
   });
 
   document.getElementById('pos-user-button').addEventListener('click', function (event) {
@@ -466,6 +594,11 @@
   setInterval(renderClock, 30000);
   renderCategories();
   renderProducts();
+  saleMode = invoices[0].saleMode || saleMode;
+  shippingTab = invoices[0].shippingTab || shippingTab;
+  discountInput.value = invoices[0].discount || 0;
+  applyFields(invoices[0].fields);
+  renderInvoiceTabs();
   setShippingTab('gateway');
   setMode(saleMode);
 }());

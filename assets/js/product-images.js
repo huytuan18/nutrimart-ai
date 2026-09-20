@@ -949,6 +949,32 @@ Object.assign(window.NM_PRODUCT_PHOTOS, {
   });
 }());
 
+/* Bản ghi đè cuối: ảnh sản phẩm phải là ảnh món/thực phẩm, không dùng ảnh tư liệu
+   hoặc ảnh có chủ thể không liên quan. */
+(function () {
+  'use strict';
+
+  function foodPhoto(image, title) {
+    return {
+      image: image + '?auto=format&fit=crop&w=960&h=720&q=86',
+      source: 'https://unsplash.com',
+      title: title,
+      license: 'Unsplash License'
+    };
+  }
+
+  Object.assign(window.NM_PRODUCT_PHOTOS, {
+    "NMAI008": foodPhoto('https://images.unsplash.com/photo-1512621776951-a57141f2eefd', 'Rau xà lách xoăn tươi'),
+    "NMAI034": foodPhoto('https://images.unsplash.com/photo-1602470520998-f4a52199a3d6', 'Ba chỉ bò cuộn'),
+    "NMAI065": {
+      "image": "assets/images/products/nmai065-red-rice.jpg",
+      "source": "NutriMart AI product studio",
+      "title": "Gạo lứt đỏ",
+      "license": "Project asset"
+    }
+  });
+}());
+
 /* Bộ ảnh sản phẩm studio v10.0: ảnh đặt riêng theo đúng tên hàng và lưu ngay trong dự án. */
 (function () {
   'use strict';

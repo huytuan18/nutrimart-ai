@@ -147,7 +147,7 @@
     var currentProducts = load('nm_products',[]);
     if (force || !currentProducts.length) {
       save('nm_products',products);
-    } else if (previousVersion !== '10.0.0') {
+    } else if (previousVersion !== '10.2.0') {
       currentProducts = currentProducts.map(function (product) {
         var model = products.find(function (item) { return item.id === product.id; });
         return model ? Object.assign({},model,product,{image:model.image}) : product;
@@ -155,7 +155,7 @@
       save('nm_products',currentProducts);
     }
     if (force || !localStorage.getItem('nm_orders')) save('nm_orders',buildDemoOrders(products));
-    else if (previousVersion !== '10.0.0') {
+    else if (previousVersion !== '10.2.0') {
       var productById = {};
       products.forEach(function (product) { productById[product.id] = product; });
       var migratedOrders = load('nm_orders',[]).map(function (order) {
@@ -180,12 +180,30 @@
     ]);
     if (force || !localStorage.getItem('nm_cashbook')) save('nm_cashbook',buildCashbook());
     if (force || !localStorage.getItem('nm_cart')) save('nm_cart',[]);
-    localStorage.setItem('nm_data_version','10.0.0');
+    localStorage.setItem('nm_data_version','10.2.0');
   }
 
   initialize(false);
+  var categoryImages = {
+    'thuc-pham-kho':'assets/images/products/nmai065-red-rice.jpg',
+    'rau-cu-qua':'assets/images/products/nmai001-broccoli.jpg',
+    'trai-cay':'assets/images/products/nmai015-green-apples.jpg',
+    'ca-hai-san':'assets/images/products/nmai042-mackerel-steaks.jpg',
+    'sua-trung':'assets/images/products/nmai061-skim-milk.jpg',
+    'do-uong':'assets/images/products/nmai081-ginger-kombucha.jpg',
+    'lanh-manh':'assets/images/products/nmai090-salmon-brown-rice.jpg'
+  };
   window.NM = {
-    categories:categories.map(function (category) { return {slug:category.slug,name:category.name,emoji:category.emoji,color:category.color,image:photoUrl(photoPools[category.slug][0]),count:category.names.length}; }),
+    categories:categories.map(function (category) {
+      return {
+        slug:category.slug,
+        name:category.name,
+        emoji:category.emoji,
+        color:category.color,
+        image:categoryImages[category.slug] || photoUrl(photoPools[category.slug][0]),
+        count:category.names.length
+      };
+    }),
     getProducts:function () { return load('nm_products',[]); },
     setProducts:function (value) { save('nm_products',value); },
     getOrders:function () { return load('nm_orders',[]); },

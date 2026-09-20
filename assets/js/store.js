@@ -327,6 +327,10 @@
     return 'https://img.vietqr.io/image/' + bank + '-' + account + '-compact2.png?' + query.toString();
   }
 
+  function fallbackQrUrl() {
+    return 'assets/images/payment/tpbank-vietqr-default.png';
+  }
+
   function startPaymentCountdown() {
     clearInterval(countdownTimer);
     var remaining = 15 * 60;
@@ -362,8 +366,9 @@
       qrImage.hidden = false;
       qrImage.src = buildVietQrUrl(order);
       qrImage.onerror = function () {
-        qrImage.hidden = true;
-        showToast('Không tải được mã QR. Bạn vẫn có thể dùng thông tin chuyển khoản bên cạnh.', 'error');
+        qrImage.onerror = null;
+        qrImage.src = fallbackQrUrl();
+        showToast('Đang dùng mã TPBank dự phòng. Vui lòng kiểm tra số tiền trước khi chuyển.', 'error');
       };
       document.getElementById('payment-bank-name').textContent =
         paymentSettings.bankName || paymentSettings.bankCode;
