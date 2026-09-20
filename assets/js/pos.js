@@ -576,6 +576,14 @@
     renderCart();
     renderInvoiceTabs();
   });
+  window.addEventListener('pageshow', function () {
+    products = NM.getProducts();
+    orders = NM.getOrders();
+    customers = NM.getCustomers();
+    renderProducts();
+    renderCart();
+    renderInvoiceTabs();
+  });
 
   document.getElementById('pos-user-button').addEventListener('click', function (event) {
     event.stopPropagation();

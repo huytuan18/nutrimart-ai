@@ -87,6 +87,7 @@
     if (['nm_products', 'nm_orders', 'nm_customers', 'nm_cashbook'].indexOf(event.key) !== -1) refreshSharedData();
   });
   window.addEventListener('nm-data-updated', refreshSharedData);
+  window.addEventListener('pageshow', refreshSharedData);
 
   function dateKey(value) {
     var date = new Date(value);

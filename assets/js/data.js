@@ -139,7 +139,16 @@
     ];
   }
 
-  function save(key,value) { localStorage.setItem(key,JSON.stringify(value)); }
+  var syncChannel = null;
+  try {
+    syncChannel = new BroadcastChannel('nutrimart-shared-data');
+  } catch (error) {}
+
+  function save(key,value) {
+    var serialized = JSON.stringify(value);
+    localStorage.setItem(key,serialized);
+    if (syncChannel) syncChannel.postMessage({key:key,value:serialized,updatedAt:Date.now()});
+  }
   function load(key,fallback) { try { var value=JSON.parse(localStorage.getItem(key)); return value == null ? fallback : value; } catch (error) { return fallback; } }
   function initialize(force) {
     var products = buildProducts();
@@ -214,10 +223,24 @@
     setCashbook:function (value) { save('nm_cashbook',value); },
     getCart:function () { return load('nm_cart',[]); },
     setCart:function (value) { save('nm_cart',value); },
+    syncKeys:['nm_products','nm_orders','nm_customers','nm_cashbook','nm_cart'],
+    refreshFromSharedStorage:function () {
+      window.dispatchEvent(new CustomEvent('nm-data-updated'));
+    },
     reset:function () { initialize(true); },
     formatMoney:function (value) { return new Intl.NumberFormat('vi-VN',{style:'currency',currency:'VND',maximumFractionDigits:0}).format(Number(value)||0); },
     escape:function (value) { var node=document.createElement('div'); node.textContent=value == null ? '' : String(value); return node.innerHTML; },
     orderStatus:{completed:'Hoàn thành',processing:'Đang xử lý','on-hold':'Chờ xác nhận',cancelled:'Đã hủy'},
     orderStatusClass:{completed:'green',processing:'blue','on-hold':'amber',cancelled:'red'}
   };
+
+  if (syncChannel) {
+    syncChannel.addEventListener('message', function (event) {
+      var message = event.data || {};
+      if (window.NM.syncKeys.indexOf(message.key) === -1 || typeof message.value !== 'string') return;
+      if (localStorage.getItem(message.key) === message.value) return;
+      localStorage.setItem(message.key,message.value);
+      window.dispatchEvent(new CustomEvent('nm-data-updated', {detail:{key:message.key}}));
+    });
+  }
 }());
