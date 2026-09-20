@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="assets/css/style.css?v=10.0">
   <link rel="stylesheet" href="assets/css/store-v8.css?v=10.0">
   <link rel="stylesheet" href="assets/css/v10.css?v=10.1">
+  <link rel="stylesheet" href="assets/css/chat-assistant.css?v=1.0">
+  <link rel="stylesheet" href="assets/css/faq.css?v=1.0">
 </head>
 <body>
   <div class="announcement">
@@ -52,6 +54,7 @@
           <a href="#products">Sản phẩm</a>
           <a href="#nutrition-ai">Dinh dưỡng AI</a>
           <a href="#knowledge">Góc sống khỏe</a>
+          <a href="#faq">Hỏi đáp</a>
           <a href="#contact">Liên hệ</a>
           <a class="mobile-nav-auth" href="auth.html">Đăng nhập / Đăng ký</a>
         </nav>
@@ -154,6 +157,18 @@
       </div>
     </section>
 
+    <section class="section faq-section" id="faq">
+      <div class="container faq-grid">
+        <div class="faq-intro"><span class="eyebrow">HỖ TRỢ MUA HÀNG</span><h2>Câu hỏi thường gặp</h2><p>Thông tin ngắn gọn để bạn đặt hàng nhanh và yên tâm hơn.</p><button class="button secondary" type="button" data-open-chat>Hỏi NutriBot AI →</button></div>
+        <div class="faq-list">
+          <details open><summary>NutriMart giao hàng trong bao lâu?</summary><p>Đơn nội thành dự kiến giao trong ngày, thường từ 2–4 giờ tùy khu vực và thời điểm đặt hàng. Nhân viên sẽ liên hệ trước khi giao.</p></details>
+          <details><summary>Khi nào đơn hàng được miễn phí giao hàng?</summary><p>Đơn từ 499.000₫ được miễn phí giao hàng. Đơn thấp hơn sẽ hiển thị phí giao cụ thể trước khi bạn xác nhận.</p></details>
+          <details><summary>Có thể đổi trả thực phẩm tươi không?</summary><p>Bạn có thể liên hệ trong vòng 24 giờ nếu sản phẩm bị hư hỏng, giao sai hoặc không đúng mô tả. Vui lòng giữ lại ảnh và mã đơn hàng.</p></details>
+          <details><summary>Dữ liệu dinh dưỡng có thay thế tư vấn bác sĩ không?</summary><p>Không. BMI, BMR, TDEE và thông tin trên sản phẩm chỉ mang tính tham khảo, đặc biệt với người có bệnh nền hoặc chế độ ăn điều trị.</p></details>
+        </div>
+      </div>
+    </section>
+
     <section class="newsletter" id="contact"><div class="container newsletter-inner"><div><span>BẢN TIN NUTRIMART</span><h2>Mỗi tuần một mẹo sống khỏe</h2><p>Nhận ưu đãi mới và kiến thức dinh dưỡng hữu ích.</p></div><form id="newsletter-form"><input type="email" placeholder="Email của bạn" aria-label="Email nhận bản tin" required><button type="submit">Đăng ký →</button></form></div></section>
   </main>
 
@@ -203,10 +218,24 @@
   <div class="mobile-cart-bar" id="mobile-cart-bar" hidden><button type="button" data-open-cart><span><b id="mobile-cart-count">0</b> sản phẩm</span><strong id="mobile-cart-total">0₫</strong><i>Xem giỏ →</i></button></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <section class="ai-chat" id="ai-chat" aria-label="Trợ lý NutriMart AI">
+    <button class="ai-chat-launcher" id="ai-chat-launcher" type="button" aria-expanded="false">
+      <span class="ai-chat-avatar">✦</span><span><b>NutriBot</b><small>Tư vấn dinh dưỡng</small></span><i>×</i>
+    </button>
+    <div class="ai-chat-panel" id="ai-chat-panel" hidden>
+      <header><div><span class="ai-chat-avatar">✦</span><div><strong>NutriBot AI</strong><small>Đang sẵn sàng hỗ trợ bạn</small></div></div><button id="ai-chat-close" type="button" aria-label="Đóng chat">×</button></header>
+      <div class="ai-chat-messages" id="ai-chat-messages" aria-live="polite"></div>
+      <div class="ai-chat-suggestions" id="ai-chat-suggestions"><button type="button">Gợi ý món giàu protein</button><button type="button">Tôi muốn giảm cân</button><button type="button">Tìm sản phẩm ít đường</button></div>
+      <form class="ai-chat-form" id="ai-chat-form"><input id="ai-chat-input" type="text" maxlength="300" autocomplete="off" placeholder="Hỏi NutriBot về dinh dưỡng..."><button type="submit" aria-label="Gửi tin nhắn">→</button></form>
+      <small class="ai-chat-disclaimer">Thông tin tham khảo, không thay thế tư vấn y khoa.</small>
+    </div>
+  </section>
+
   <script src="assets/js/supabase-config.js?v=10.0"></script>
   <script src="assets/js/auth.js?v=10.0"></script>
-  <script src="assets/js/product-images.js?v=10.0"></script>
+  <script src="assets/js/product-images.js?v=10.2"></script>
   <script src="assets/js/data.js?v=10.0"></script>
   <script src="assets/js/store.js?v=10.0"></script>
+  <script src="assets/js/chat-assistant.js?v=1.0"></script>
 </body>
 </html>
